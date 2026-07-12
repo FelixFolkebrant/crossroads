@@ -1,26 +1,26 @@
 # What
 
-Brief description
+Brief product description.
 
-# Tech stack preferences
+# Tech Stack Preferences
 
-Module seperation and tech stack if domain is known and preferences exist.
+Module separation and tech stack preferences, if the domain is known and preferences exist.
 
----
 # Features
 
 ## Feature 1
 
-Description of a specific feature or view
----
+Description of a specific feature or view.
 
-# User flows
+# User Flows
 
-## Flow 1 name
+## Flow 1 Name
 
-User flow example
+User flow example.
 
 # Constraints
 
-### C1: Title
+## C1 - Title
 
+- Constraint:
+- Why it matters:

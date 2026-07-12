@@ -1,55 +1,69 @@
-Feel free to use emojis, this document is meant to not be cognitivly heavy but still communicate concepts clearly but concise. Explainations of each category is in this template only. The real documents should be written with just content. 
+# GH-XXX: <Title>
 
-# What 
+## Template Guidance
 
-What has been implemented. Few words as possible. Use a bulleted list or a numbered if it makes sense. 
+This is the durable issue record. Keep it current during issue work in `docs/wip/`, then move it to `docs/issues/` after merge. It should summarize what changed, what the reviewer must confirm, and which decisions should survive after WIP docs are deleted.
 
-### Plan diff 
-If the implementation differs from GH-X-plan.md (often acceptance criteria, tasks or scope) then write it out here. Brief with bullet points or preffered format that makes sense. 
+# What
 
-### Confirmation
-Exact instructions on how to confirm that this issue does what it says it does and works. We assume that testing has passed so only include manual testing here such as "Open website/new and see the new add country button" or "send the following curl request, Expected outcome:"
+- What was implemented.
 
+# Acceptance Criteria
+
+- [ ] Criterion from the accepted plan, updated if scope changed.
+
+# Plan Diff
+
+- Any meaningful difference from `GH-XXX-PLAN.md`.
+- Write `None` if the implementation followed the plan.
+
+# Confirmation
+
+## Automated Checks
+
+- Command:
+- Result:
+
+## Manual Testing
+
+- Start the feature:
+- Action:
+- Expected result:
 
 # Heatmap
-The heatmap tells which parts of the code has made the most opinionated changes. These should be really brief and readable. Extended explainations should be inside GH-X-deepdive.md. 
 
-> **Cold**: Code that basically needs no review. Really obvious what is done and cannot be done any other way. Routine code or standard best practices.
+Reference: `../project/HEATMAP.md`.
 
-> **Warm**: Ordinary business logic following known patterns. If it is a known pattern but with a chance to be done in a different way and its not outside of best practice it can be worth a quick look -> warm. 
-
-> **Hot:** Where the code has made a statement. Where a decision has been made or has the potential for review or refactor.  
-
-> **Stylistic:** Where a change is not about architecture and not about a big change but is a smaller stylistic choice. This can be things such as list comprehension vs for loop or deciding to split up a component or not in react. Or maybe a naming convention. 
-
-%% Style choices should be saved to a STYLE.md %%
-
-The goal is that more and more choices should become Cold or at least Warm choices. The more patterns we can decide earlier, the more cold the heatmap should become over time in theory. 
+Record only decisions that should persist after WIP docs are removed.
 
 ## Hot
 
-### H1 - What decision was made
-* What decisions was made?
-* Where (file/files lines)
-* Why was it made? Best practices / industry standard? Similar pattern built this way previously in code base?
-* What where the alternatives? 
+### H1 - <Decision>
+
+- Decision:
+- Where:
+- Why:
+- Alternatives:
 
 ## Warm
-* What decision was made
-* Where
+
+- Where:
+- What:
 
 ## Cold
-Summarized in a table 
 
-| Where          | What                                                      |
-| -------------- | --------------------------------------------------------- |
-| whichFile:line | Standard react icon following pattern of other icons      |
-| whichFile      | File deleted, no longer needed because of {this new file} |
+| Where | What |
+|---|---|
+| `<file>:<line>` | Routine change following an accepted pattern. |
 
-## Styistic
+## Stylistic
 
-### S1 - What stylistic choice was made
+### S1 - <Choice>
 
-* What
-* Alternative
-* When to apply
+- Choice:
+- Alternative:
+- When to apply:
+
+# Notes
+
+- Anything the reviewer or future maintainer should know.

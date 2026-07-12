@@ -14,7 +14,7 @@ A hard-to-reverse product, architecture, or workflow decision that needs human a
 
 Use for:
 - Stack choice.
-- Storage/source-of-truth choice.
+- Storage or source-of-truth choice.
 - Third-party provider choice.
 - Auth, data ownership, or destructive behavior.
 - Decisions that would cause meaningful rewrite cost if wrong.
@@ -50,7 +50,7 @@ Use for:
 
 Do not use for:
 - Routine code that follows an accepted pattern.
-- A decision already settled in `PATTERNS.md` or an accepted PlanPoint.
+- A decision already settled in `PATTERNS.md` or an accepted Planpoint.
 - Pure style choices unless they affect maintainability.
 
 Format:
@@ -133,4 +133,4 @@ The goal is not to make every decision Cold immediately. The goal is to turn rep
 - If a Hot implementation choice repeats, either move it into `PATTERNS.md` or keep treating each instance as Hot until the pattern is accepted.
 - If a Stylistic choice repeats, move it into `STYLE.md`.
 - If a Warm pattern starts causing bugs, raise the next instance to Hot and review the pattern.
-- If a Crossroad was missed and discovered during issue work, stop and update the PlanPoint before continuing.
+- If a Crossroad was missed and discovered during issue work, stop and update the Planpoint before continuing.
