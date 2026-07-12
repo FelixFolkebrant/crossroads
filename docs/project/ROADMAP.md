@@ -1,24 +1,29 @@
 # Roadmap
 
+Roadmaps stay loose. They show direction, deferred scope, and the Planpoints that will make hard-to-reverse decisions before issue work starts.
 
 ## Planpoints
 
-### 0.1 - Planpoint title
-(We do not create seperate files for afterconstructed planpoints)
-This is an example of a afterconstructed planpoint. These planpoints are created if the ROADMAP is initialized in an existing project to give context to pevious code. 
-| Crossroad | Decision | Alternatives rejected |
+### 0.1 - Historical Planpoint Title
+
+Historical Planpoints do not need separate `PP` files. Use them when the roadmap is initialized in an existing project and previous code needs context.
+
+| Crossroad | Decision | Alternatives Rejected |
 |---|---|---|
+| | | |
 
-
-### [1 [DONE | DEFFERED | CURRENT] - Plan point title](../planpoints/PP-X.md)
+### [1 CURRENT - Planpoint Title](../planpoints/PP-X.md)
 
 Very lean description.
-| Crossroad | Decision | Alternatives rejected |
+
+| Crossroad | Decision | Alternatives Rejected |
 |---|---|---|
+| | ? | ? |
 
-### 2 - Plan point title
-On the current and incoming planpoints we write out the crossroads to decide, but since we have not made decisions then they are left as ?. If it is a planned issue then it has no [status]. 
+### 2 - Planpoint Title
 
-| Crossroad | Decision | Alternatives rejected |
+Incoming Planpoints list expected Crossroads, but undecided items stay as `?`. Planned Planpoints do not need a status.
+
+| Crossroad | Decision | Alternatives Rejected |
 |---|---|---|
 | | ? | ? |

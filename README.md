@@ -1,0 +1,75 @@
+# Crossroads
+
+> A documentation workflow for moving quickly with AI without handing over the decisions that shape the project.
+
+AI-assisted development tends to drift toward one of two extremes: trust every generated decision, or review every generated line. The first loses human taste; the second loses the speed.
+
+Crossroads takes a middle path. Work is planned in gradually smaller slices, hard-to-reverse choices require human acceptance, and reviews point attention toward decisions rather than volume.
+
+## The Process
+
+```text
+Idea -> Roadmap -> Planpoint -> Issue plan -> Build -> Review -> Merge
+                       ^                         |
+                       +-- raise Crossroads -----+
+```
+
+### 1. Set Direction
+
+Start with [`IDEA.md`](docs/project/IDEA.md): describe the product, important user flows, constraints, and any stack preferences already known.
+
+Turn that into [`ROADMAP.md`](docs/project/ROADMAP.md). The roadmap shows where the project is going without pretending every future detail is settled.
+
+### 2. Plan One Vertical Slice
+
+Create a **Planpoint** from [`PP-X.md`](docs/templates/PP-X.md). A Planpoint defines one end-to-end capability and decides only the Crossroads that would be expensive to reverse later.
+
+The human accepts those decisions before issue work begins. Everything cheaper to change stays deferred.
+
+### 3. Plan And Build One Issue
+
+Create `docs/wip/GH-<n>-PLAN.md` from the [issue plan template](docs/templates/GH-XXX-PLAN.md). Agree on scope, acceptance criteria, atomic commits, and any issue-level decisions that deserve attention.
+
+Build on `<name>/GH-<n>/<revision>`, keep commits atomic, and maintain `docs/wip/GH-<n>.md` from the [issue record template](docs/templates/GH-XXX.md). This record captures what changed and how to verify it.
+
+If implementation exposes a hard-to-reverse decision, stop and raise it to the Planpoint instead of letting the AI choose silently.
+
+### 4. Review What Matters
+
+When review is requested, create `docs/wip/GH-<n>-REVIEW.md` from the [review template](docs/templates/GH-XXX-REVIEW.md). Findings have two separate signals:
+
+- **Severity** says how important a problem is to fix.
+- **Heat** says how much human judgment a decision deserves.
+
+Fix accepted findings with fixup commits, review them, then rebase once. Repeat until the issue is accepted.
+
+### 5. Finish And Preserve Context
+
+Push the branch, open a PR, and complete CI and manual review. After merge, remove the temporary plan and review documents, then move the final issue record to `docs/issues/GH-<n>.md`.
+
+The final record is the durable explanation of what changed, how it was confirmed, and which decisions future work should inherit.
+
+## Document Map
+
+| File | Purpose |
+|---|---|
+| [`IDEA.md`](docs/project/IDEA.md) | Product intent, user flows, constraints, and known preferences. |
+| [`ROADMAP.md`](docs/project/ROADMAP.md) | Current direction, upcoming Planpoints, and deferred decisions. |
+| `docs/planpoints/PP-<n>.md` | One vertical slice and its accepted Crossroads. |
+| `docs/wip/GH-<n>-PLAN.md` | Temporary issue scope, acceptance criteria, and proposed decisions. |
+| `docs/wip/GH-<n>-REVIEW.md` | Temporary review findings, severity, heat, and resolution status. |
+| `docs/wip/GH-<n>.md` | Issue record maintained during implementation. |
+| `docs/issues/GH-<n>.md` | Durable issue record preserved after merge. |
+| [`HEATMAP.md`](docs/project/HEATMAP.md) | Canonical definitions for Crossroad, Hot, Warm, Cold, and Stylistic. |
+| [`PATTERNS.md`](docs/project/PATTERNS.md) | Accepted implementation choices that future work can follow. |
+| [`STYLE.md`](docs/project/STYLE.md) | Accepted style choices that should stay consistent. |
+
+## Principles
+
+- Plan gradually. Decide only what the next slice needs.
+- Build thin vertical slices that prove the system end to end.
+- Keep human taste focused on costly or opinionated decisions.
+- Turn repeated decisions into accepted patterns and style.
+- Preserve the reasoning that future work needs; delete temporary process noise.
+
+The [Crossroads Manifesto](docs/CROSSROADS_MANIFESTO.md) is the highest-level source of truth. See the [workflow reference](docs/project/WORKFLOW.md) for the operational rules.
