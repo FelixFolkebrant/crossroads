@@ -22,6 +22,13 @@ Before planning, implementing, or reviewing issue work:
 
 When an issue-level Hot or Stylistic decision should guide future work, propose it as project guidance in the issue plan or review. Add it to `PATTERNS.md` or `STYLE.md` only after the user accepts the proposal, then record the change in the final issue record.
 
+## Maintaining This Template
+
+When changing Crossroads itself, keep the repository as a generic template:
+- `docs/wip/`, `docs/issues/`, and `docs/planpoints/` may contain local maintenance artifacts, but never commit anything there except `.gitkeep`.
+- Do not populate `docs/project/IDEA.md` or `docs/project/ROADMAP.md` with Crossroads maintenance work.
+- Remove local maintenance artifacts before merging.
+
 ## Design Philosophy
 
 *These guidelines bias toward caution over speed. For trivial tasks, use judgment.*
