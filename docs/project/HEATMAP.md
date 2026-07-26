@@ -130,7 +130,10 @@ Examples:
 
 The goal is not to make every decision Cold immediately. The goal is to turn repeated decisions into accepted patterns.
 
-- If a Hot implementation choice repeats, either move it into `PATTERNS.md` or keep treating each instance as Hot until the pattern is accepted.
-- If a Stylistic choice repeats, move it into `STYLE.md`.
+- During issue planning and review, compare Hot and Stylistic decisions with accepted project guidance and durable issue records.
+- If a Hot implementation choice repeats or should clearly guide future work, propose it for `PATTERNS.md`. Keep treating each instance as Hot until the user accepts the pattern.
+- If a Stylistic choice repeats or should be applied consistently, propose it for `STYLE.md`.
+- Accept promotion proposals through the issue plan or review, then update the project guidance file on the same branch and name the new ID in the final issue record.
+- Cite applicable project guidance IDs in future issue plans. A choice settled by accepted guidance becomes Warm or Cold.
 - If a Warm pattern starts causing bugs, raise the next instance to Hot and review the pattern.
 - If a Crossroad was missed and discovered during issue work, stop and update the Planpoint before continuing.

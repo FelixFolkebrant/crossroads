@@ -27,11 +27,27 @@ Use this document to agree on issue scope before code starts. Keep prose short. 
 - What this commit changes.
 - Why it belongs as one atomic commit.
 
+# Project Guidance
+
+Read `../project/PATTERNS.md` and `../project/STYLE.md` before completing this section. Reference each applicable ID, or write `None`.
+
+## Applied
+
+- Patterns: `PAT-XXX` - How it applies.
+- Style: `STYLE-XXX` - How it applies.
+
+## Proposed Additions
+
+List any issue-level decision that should become accepted project guidance, or write `None`. The user accepts or rejects each proposal with the issue plan.
+
+- Pattern: `H1` - Why future work should reuse it.
+- Style: `S1` - Why it should be applied consistently.
+
 # Heatmap
 
 Reference: `../project/HEATMAP.md`.
 
-Only include Hot and major Stylistic choices that need attention before implementation.
+Only include new Hot and major Stylistic choices that need attention before implementation. Do not repeat choices settled by accepted project guidance.
 
 ## Hot
 
