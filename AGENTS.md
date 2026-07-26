@@ -2,7 +2,7 @@
 
 Crossroads is a documentation workflow for planning and reviewing AI-assisted project work while keeping human decisions explicit.
 
-## Read When Needed
+## Project Context
 
 All documents inside `docs/` are local by design.
 
@@ -14,6 +14,20 @@ All documents inside `docs/` are local by design.
 - Accepted style choices: `docs/project/STYLE.md`
 - Templates: `docs/templates/`
 - Manifesto: `docs/CROSSROADS_MANIFESTO.md` only when changing workflow, templates, or this file.
+
+Before planning, implementing, or reviewing issue work:
+- Read `docs/project/PATTERNS.md` and `docs/project/STYLE.md`.
+- Record each applicable project guidance ID in the issue plan, or explicitly record `None`.
+- Treat choices settled by accepted project guidance as Warm or Cold instead of reconsidering them as Hot or Stylistic.
+
+When an issue-level Hot or Stylistic decision should guide future work, propose it as project guidance in the issue plan or review. Add it to `PATTERNS.md` or `STYLE.md` only after the user accepts the proposal, then record the change in the final issue record.
+
+## Maintaining This Template
+
+When changing Crossroads itself, keep the repository as a generic template:
+- `docs/wip/`, `docs/issues/`, and `docs/planpoints/` may contain local maintenance artifacts, but never commit anything there except `.gitkeep`.
+- Do not populate `docs/project/IDEA.md` or `docs/project/ROADMAP.md` with Crossroads maintenance work.
+- Remove local maintenance artifacts before merging.
 
 ## Design Philosophy
 
@@ -56,7 +70,7 @@ All documents inside `docs/` are local by design.
 
 ### Completing Issue Work
 
-1. Ensure the issue recap at `docs/wip/GH-XXX.md` contains current **What**, **Acceptance Criteria**, **Confirmation**, and **Notes** sections.
+1. Ensure the issue recap at `docs/wip/GH-XXX.md` contains current **What**, **Acceptance Criteria**, **Confirmation**, **Project Guidance**, and **Notes** sections.
    - Confirmation must separate automated checks from manual testing.
    - Manual testing must tell the reviewer how to start the feature, what changed from the previous behavior or appearance, which actions to perform, and exactly what should be visible or happen after each action.
    - Cover every user-facing acceptance criterion, including relevant loading, empty, error, responsive, and keyboard states. Do not use vague instructions such as "run the app and inspect it."

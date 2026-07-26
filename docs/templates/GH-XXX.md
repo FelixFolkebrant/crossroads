@@ -30,6 +30,14 @@ This is the durable issue record. Keep it current during issue work in `docs/wip
 - Action:
 - Expected result:
 
+# Project Guidance
+
+Reference the accepted project guidance used by this issue and any entries added or changed on this branch. Write `None` when a line does not apply.
+
+- Applied patterns: `PAT-XXX`
+- Applied style: `STYLE-XXX`
+- Added or changed: `PAT-XXX`, `STYLE-XXX`
+
 # Heatmap
 
 Reference: `../project/HEATMAP.md`.

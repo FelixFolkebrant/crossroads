@@ -11,6 +11,15 @@ Heat definitions live in `../project/HEATMAP.md`.
 - Overall review result.
 - Highest-risk area.
 
+# Project Guidance
+
+Read `../project/PATTERNS.md` and `../project/STYLE.md`. Check the guidance declared in the issue plan and list promotion candidates separately from findings.
+
+- Conformance: Applicable IDs were followed, or describe the deviation.
+- Promotion candidates: `H1` to `PAT-XXX`, `S1` to `STYLE-XXX`, or `None`.
+
+The user accepts or rejects each promotion candidate. Add accepted promotions to the appropriate project guidance file in a fixup commit. A deviation that creates a bug or maintainability risk should also be recorded as a finding.
+
 # Findings
 
 ## 1. <Finding Title>

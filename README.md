@@ -30,7 +30,9 @@ The human accepts those decisions before issue work begins. Everything cheaper t
 
 Create `docs/wip/GH-<n>-PLAN.md` from the [issue plan template](docs/templates/GH-XXX-PLAN.md). Agree on scope, acceptance criteria, atomic commits, and any issue-level decisions that deserve attention.
 
-Build on `<name>/GH-<n>/<revision>`, keep commits atomic, and maintain `docs/wip/GH-<n>.md` from the [issue record template](docs/templates/GH-XXX.md). This record captures what changed and how to verify it.
+Before implementation, read [`PATTERNS.md`](docs/project/PATTERNS.md) and [`STYLE.md`](docs/project/STYLE.md). Record which accepted guidance applies, or explicitly record that none does. Choices already settled by project guidance are Warm or Cold instead of decisions to revisit.
+
+Build on `<name>/GH-<n>/<revision>`, keep commits atomic, and maintain `docs/wip/GH-<n>.md` from the [issue record template](docs/templates/GH-XXX.md). This record captures what changed, how to verify it, and which project guidance was applied or changed.
 
 If implementation exposes a hard-to-reverse decision, stop and raise it to the Planpoint instead of letting the AI choose silently.
 
@@ -41,11 +43,13 @@ When review is requested, create `docs/wip/GH-<n>-REVIEW.md` from the [review te
 - **Severity** says how important a problem is to fix.
 - **Heat** says how much human judgment a decision deserves.
 
-Fix accepted findings with fixup commits, review them, then rebase once. Repeat until the issue is accepted.
+Review also checks that declared project guidance was followed and identifies Hot or Stylistic decisions worth reusing. The human accepts any promotion before it is added to `PATTERNS.md` or `STYLE.md`.
+
+Fix accepted findings and add accepted guidance with fixup commits, review them, then rebase once. Repeat until the issue is accepted.
 
 ### 5. Finish And Preserve Context
 
-Push the branch, open a PR, and complete CI and manual review. After merge, remove the temporary plan and review documents, then move the final issue record to `docs/issues/GH-<n>.md`.
+Push the branch, open a PR, and complete CI and manual review. Before merge, make sure any accepted guidance is in `PATTERNS.md` or `STYLE.md` and named in the final issue record. After merge, remove the temporary plan and review documents, then move the final issue record to `docs/issues/GH-<n>.md`.
 
 The final record is the durable explanation of what changed, how it was confirmed, and which decisions future work should inherit.
 
