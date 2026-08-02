@@ -1,0 +1,7 @@
+interface:
+  display_name: "One Shot"
+  short_description: "Build a small project with two approval gates"
+  default_prompt: "Use $one-shot to turn IDEA.md into a finished, verified small project."
+
+policy:
+  allow_implicit_invocation: false

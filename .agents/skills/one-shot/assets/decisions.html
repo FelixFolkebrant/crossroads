@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="One-shot project decisions requiring human judgment">
+  <title>{{PROJECT_NAME}} · Decisions</title>
+  <link rel="stylesheet" href=".one-shot/document.css">
+</head>
+<body>
+  <!-- Replace every {{PLACEHOLDER}} and duplicate or remove representative cards as needed. -->
+  <a class="skip-link" href="#content">Skip to decisions</a>
+
+  <main class="page" id="content">
+    <header class="hero">
+      <p class="eyebrow">One Shot · Decision Gate</p>
+      <div class="title-row">
+        <div>
+          <h1>{{PROJECT_NAME}} decisions</h1>
+          <p class="lede">Only choices that materially shape the product appear here. Crossroads require acceptance; Hot decisions are proposed defaults that can be changed by ID.</p>
+        </div>
+        <span class="status awaiting">Awaiting review</span>
+      </div>
+
+      <dl class="meta-grid">
+        <div><dt>Source</dt><dd>IDEA.md</dd></div>
+        <div><dt>Crossroads</dt><dd>{{CROSSROAD_COUNT}}</dd></div>
+        <div><dt>Hot decisions</dt><dd>{{HOT_COUNT}}</dd></div>
+        <div><dt>Updated</dt><dd>{{UPDATED_DATE}}</dd></div>
+      </dl>
+
+      <div class="review-note">
+        <strong>Review</strong>
+        <p>Accept all proposals to continue, or request a change using an ID such as <code>Change C2 to ...</code>.</p>
+      </div>
+    </header>
+
+    <section class="section" id="crossroads" aria-labelledby="crossroads-title">
+      <div class="section-heading">
+        <span class="section-number">C</span>
+        <div>
+          <p class="eyebrow">Blocking decisions</p>
+          <h2 id="crossroads-title">Crossroads</h2>
+          <p>Choices with meaningful rewrite, ownership, security, provider, or product cost if they are wrong.</p>
+        </div>
+      </div>
+
+      <div class="decision-list">
+        <article class="decision crossroad" id="C1">
+          <div class="decision-main">
+            <div class="decision-topline">
+              <div class="decision-identity">
+                <span class="decision-id">C1</span>
+                <h3>{{CROSSROAD_TITLE}}</h3>
+              </div>
+              <span class="decision-status open">Open</span>
+            </div>
+
+            <p class="decision-question">{{CROSSROAD_DECISION}}</p>
+
+            <div class="decision-grid">
+              <div class="decision-fact">
+                <h4>Impact if wrong</h4>
+                <p>{{CROSSROAD_IMPACT}}</p>
+              </div>
+              <div class="decision-fact proposal">
+                <h4>Proposed choice</h4>
+                <p>{{CROSSROAD_PROPOSAL}}</p>
+              </div>
+            </div>
+
+            <div class="options" aria-label="Options for C1">
+              <div class="option recommended">
+                <strong>{{OPTION_ONE}}</strong>
+                <span>{{OPTION_ONE_CONSEQUENCE}}</span>
+                <span class="recommendation">Recommended</span>
+              </div>
+              <div class="option">
+                <strong>{{OPTION_TWO}}</strong>
+                <span>{{OPTION_TWO_CONSEQUENCE}}</span>
+              </div>
+              <div class="option">
+                <strong>{{OPTION_THREE}}</strong>
+                <span>{{OPTION_THREE_CONSEQUENCE}}</span>
+              </div>
+            </div>
+          </div>
+
+          <details>
+            <summary>Reasoning and review consequence</summary>
+            <div class="detail-body">
+              <div><h4>Why</h4><p>{{CROSSROAD_REASON}}</p></div>
+              <div><h4>Review consequence</h4><p>{{CROSSROAD_REVIEW}}</p></div>
+            </div>
+          </details>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="hot-decisions" aria-labelledby="hot-title">
+      <div class="section-heading">
+        <span class="section-number">H</span>
+        <div>
+          <p class="eyebrow">Proposed defaults</p>
+          <h2 id="hot-title">Hot decisions</h2>
+          <p>Opinionated choices worth seeing before the build, but affordable to revise and delegated unless changed.</p>
+        </div>
+      </div>
+
+      <div class="decision-list">
+        <article class="decision hot" id="H1">
+          <div class="decision-main">
+            <div class="decision-topline">
+              <div class="decision-identity">
+                <span class="decision-id">H1</span>
+                <h3>{{HOT_TITLE}}</h3>
+              </div>
+              <span class="decision-status open">Proposed</span>
+            </div>
+
+            <p class="decision-question">{{HOT_DECISION}}</p>
+
+            <div class="decision-grid">
+              <div class="decision-fact proposal">
+                <h4>Proposed approach</h4>
+                <p>{{HOT_PROPOSAL}}</p>
+              </div>
+              <div class="decision-fact">
+                <h4>Why</h4>
+                <p>{{HOT_REASON}}</p>
+              </div>
+            </div>
+          </div>
+
+          <details>
+            <summary>Alternatives and review focus</summary>
+            <div class="detail-body">
+              <div><h4>Alternatives</h4><p>{{HOT_ALTERNATIVES}}</p></div>
+              <div><h4>Review focus</h4><p>{{HOT_REVIEW}}</p></div>
+            </div>
+          </details>
+        </article>
+      </div>
+    </section>
+
+    <footer class="page-footer">
+      Generated from <code>IDEA.md</code> by the One Shot workflow. This record contains Crossroad and Hot decisions only.
+    </footer>
+  </main>
+</body>
+</html>

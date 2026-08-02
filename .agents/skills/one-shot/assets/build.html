@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="One-shot project implementation and verification record">
+  <title>{{PROJECT_NAME}} · Build Record</title>
+  <link rel="stylesheet" href=".one-shot/document.css">
+</head>
+<body>
+  <!-- Replace every {{PLACEHOLDER}} and duplicate or remove representative cards as needed. -->
+  <a class="skip-link" href="#content">Skip to build record</a>
+
+  <main class="page" id="content">
+    <header class="hero">
+      <p class="eyebrow">One Shot · Final Record</p>
+      <div class="title-row">
+        <div>
+          <h1>{{PROJECT_NAME}} build</h1>
+          <p class="lede">{{OUTCOME_SUMMARY}}</p>
+        </div>
+        <span class="status accepted">Complete</span>
+      </div>
+
+      <dl class="meta-grid">
+        <div><dt>Product commits</dt><dd>{{COMMIT_COUNT}}</dd></div>
+        <div><dt>Capability stages</dt><dd>{{STAGE_COUNT}}</dd></div>
+        <div><dt>Automated checks</dt><dd>{{CHECK_STATUS}}</dd></div>
+        <div><dt>Completed</dt><dd>{{COMPLETED_DATE}}</dd></div>
+      </dl>
+
+      <div class="review-note">
+        <strong>History</strong>
+        <p>Capability stages are retrospective groupings of actual commits. They explain how the finished project came together; they are not forward-planned Planpoints.</p>
+      </div>
+    </header>
+
+    <section class="section" id="outcome" aria-labelledby="outcome-title">
+      <div class="section-heading">
+        <span class="section-number">01</span>
+        <div>
+          <p class="eyebrow">Delivered</p>
+          <h2 id="outcome-title">Finished outcome</h2>
+          <p>The durable product capabilities and operating constraints that define completion.</p>
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <article class="summary-card"><h3>{{OUTCOME_ONE}}</h3><p>{{OUTCOME_ONE_DETAIL}}</p></article>
+        <article class="summary-card"><h3>{{OUTCOME_TWO}}</h3><p>{{OUTCOME_TWO_DETAIL}}</p></article>
+      </div>
+    </section>
+
+    <section class="section" id="capability-stages" aria-labelledby="stages-title">
+      <div class="section-heading">
+        <span class="section-number">02</span>
+        <div>
+          <p class="eyebrow">Reconstructed history</p>
+          <h2 id="stages-title">Capability stages</h2>
+          <p>Product commits grouped by the user-visible capability they established.</p>
+        </div>
+      </div>
+
+      <div class="stage-list">
+        <article class="stage">
+          <div class="stage-heading">
+            <div><h3>{{STAGE_TITLE}}</h3><p>{{STAGE_SUMMARY}}</p></div>
+            <span class="status accepted">{{STAGE_COMMIT_COUNT}} commits</span>
+          </div>
+
+          <ol class="commit-list">
+            <li class="commit">
+              <span class="commit-id">COS-001</span>
+              <div>
+                <h3>{{COMMIT_SUBJECT}}</h3>
+                <code>{{SHORT_HASH}}</code>
+                <p><strong>Before:</strong> {{COMMIT_BEFORE}}</p>
+                <p><strong>After:</strong> {{COMMIT_AFTER}}</p>
+              </div>
+              <div class="commit-links" aria-label="Decisions affecting COS-001">
+                <a class="heat-label" href="decisions.html#C1">C1</a>
+                <a class="heat-label hot" href="decisions.html#H1">H1</a>
+              </div>
+            </li>
+          </ol>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="verification" aria-labelledby="verification-title">
+      <div class="section-heading">
+        <span class="section-number">03</span>
+        <div>
+          <p class="eyebrow">Evidence</p>
+          <h2 id="verification-title">Verification</h2>
+          <p>Completed automated evidence stays separate from judgments or host behavior that still require a person.</p>
+        </div>
+      </div>
+
+      <div class="verification-grid">
+        <div>
+          <h3>Automated checks</h3>
+          <div class="evidence-list">
+            <article class="evidence-card">
+              <div class="evidence-row">
+                <div><strong>{{CHECK_NAME}}</strong><p><code>{{CHECK_COMMAND}}</code></p></div>
+                <span class="result pass">Passed</span>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div>
+          <h3>Manual verification</h3>
+          <article class="evidence-card">
+            <ol class="manual-steps">
+              <li><strong>Start</strong>{{MANUAL_START}}</li>
+              <li><strong>Action</strong>{{MANUAL_ACTION}}</li>
+              <li><strong>Expected</strong>{{MANUAL_EXPECTED}}</li>
+            </ol>
+            <span class="result review">Human review</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="late-decisions" aria-labelledby="late-title">
+      <div class="section-heading">
+        <span class="section-number">04</span>
+        <div>
+          <p class="eyebrow">Autonomous choices</p>
+          <h2 id="late-title">Late and delegated decisions</h2>
+          <p>Hard-to-reverse choices discovered after approval and Hot choices made during the unattended build.</p>
+        </div>
+      </div>
+
+      <div class="empty-state">
+        <strong>No late Crossroads or delegated Hot decisions.</strong>
+        <p>The accepted decision record covered every implementation choice that needed separate visibility.</p>
+      </div>
+    </section>
+
+    <section class="section" id="decision-index" aria-labelledby="decision-index-title">
+      <div class="section-heading">
+        <span class="section-number">05</span>
+        <div>
+          <p class="eyebrow">Traceability</p>
+          <h2 id="decision-index-title">Decision index</h2>
+          <p>Accepted proposals that shaped the finished implementation.</p>
+        </div>
+      </div>
+
+      <div class="decision-reference-grid">
+        <article class="reference-row">
+          <div><a href="decisions.html#C1"><strong>C1 · {{CROSSROAD_TITLE}}</strong></a><p>{{CROSSROAD_RESULT}}</p></div>
+          <span class="decision-status accepted">Accepted</span>
+        </article>
+        <article class="reference-row">
+          <div><a href="decisions.html#H1"><strong>H1 · {{HOT_TITLE}}</strong></a><p>{{HOT_RESULT}}</p></div>
+          <span class="decision-status accepted">Applied</span>
+        </article>
+      </div>
+    </section>
+
+    <footer class="page-footer">
+      Reconstructed from Git history, verification output, <code>IDEA.md</code>, and <code>decisions.html</code>. The final record-only commit is intentionally excluded from capability stages.
+    </footer>
+  </main>
+</body>
+</html>

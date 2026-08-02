@@ -77,3 +77,21 @@ The final record is the durable explanation of what changed, how it was confirme
 - Preserve the reasoning that future work needs; delete temporary process noise.
 
 The [Crossroads Manifesto](docs/CROSSROADS_MANIFESTO.md) is the highest-level source of truth. See the [workflow reference](docs/project/WORKFLOW.md) for the operational rules.
+
+## One Shot Companion
+
+Small, self-contained projects do not always benefit from Crossroads' gradual roadmap, Planpoint, issue, and review layers. The repo-local [`one-shot`](.agents/skills/one-shot/SKILL.md) Codex skill keeps the same focus on human judgment while using only two approval gates:
+
+```text
+IDEA.md -> decisions.html -> prototype/readiness -> unattended build -> build.html
+```
+
+To use it in another repository:
+
+1. Copy `.agents/skills/one-shot/` into the same path in the target repository.
+2. Copy `assets/IDEA.md` from the skill to the repository root as `IDEA.md`, then replace its comment with the idea in any form you prefer.
+3. Open the repository in Codex and invoke `$one-shot`.
+
+If `IDEA.md` is missing, the skill creates the freeform starter file and pauses. During a run, `decisions.html` contains only hard-to-reverse Crossroads and opinionated Hot choices. After those decisions and the behavioral prototype are accepted, Codex completes the local application without routine implementation questions and reconstructs the `COS-NNN` commit history in `build.html`.
+
+The skill does not pin a model. Sol is the safer default while a loose idea still needs judgment and polish; Terra is a pragmatic choice when the idea and accepted gates make the build straightforward.
