@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="One-shot project decisions requiring human judgment">
+  <title>Crossroads Preview · Decisions</title>
+  <link rel="stylesheet" href=".one-shot/document.css">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to decisions</a>
+
+  <main class="page" id="content">
+    <header class="hero">
+      <p class="eyebrow">One Shot · Decision Gate</p>
+      <div class="title-row">
+        <div>
+          <h1>Crossroads Preview decisions</h1>
+          <p class="lede">A local VS Code extension that turns canonical Crossroads Markdown into the existing Framework HTML views and toggles a rendered preview.</p>
+        </div>
+        <span class="status accepted">Accepted</span>
+      </div>
+
+      <dl class="meta-grid">
+        <div><dt>Source</dt><dd>IDEA.md</dd></div>
+        <div><dt>Crossroads</dt><dd>5</dd></div>
+        <div><dt>Hot decisions</dt><dd>3</dd></div>
+        <div><dt>Updated</dt><dd>2026-08-09</dd></div>
+      </dl>
+
+      <div class="review-note">
+        <strong>Review</strong>
+        <p>Gate 1 accepted on 2026-08-09. These decisions are the behavioral and implementation contract for the prototype and unattended build.</p>
+      </div>
+    </header>
+
+    <section class="section" id="crossroads" aria-labelledby="crossroads-title">
+      <div class="section-heading">
+        <span class="section-number">C</span>
+        <div>
+          <p class="eyebrow">Blocking decisions</p>
+          <h2 id="crossroads-title">Crossroads</h2>
+          <p>Choices with meaningful rewrite, ownership, security, or product cost if they are wrong.</p>
+        </div>
+      </div>
+
+      <div class="decision-list">
+        <article class="decision crossroad" id="C1">
+          <div class="decision-main">
+            <div class="decision-topline">
+              <div class="decision-identity">
+                <span class="decision-id">C1</span>
+                <h3>Runtime and scope boundary</h3>
+              </div>
+              <span class="decision-status accepted">Accepted</span>
+            </div>
+
+            <p class="decision-question">Which VS Code hosts and Markdown document types belong in the first complete product?</p>
+
+            <div class="decision-grid">
+              <div class="decision-fact">
+                <h4>Impact if wrong</h4>
+                <p>Adding browser-hosted VS Code later changes bundling and file access; accepting arbitrary Markdown later replaces the two typed document models with a generic rendering product.</p>
+              </div>
+              <div class="decision-fact proposal">
+                <h4>Proposed choice</h4>
+                <p>Build a local desktop VS Code extension for <code>GH-*.md</code> issue records and <code>PP-*.md</code> Planpoints only. Keep VS Code for the Web, generic Markdown, roadmap, issue-plan, and review documents out of scope.</p>
+              </div>
+            </div>
+
+            <div class="options" aria-label="Options for C1">
+              <div class="option recommended">
+                <strong>Desktop and two schemas</strong>
+                <span>Delivers the requested flow with a small, explicit compatibility contract.</span>
+                <span class="recommendation">Recommended</span>
+              </div>
+              <div class="option">
+                <strong>Desktop and web hosts</strong>
+                <span>Broadens access now but requires dual-host packaging and virtual-workspace behavior.</span>
+              </div>
+              <div class="option">
+                <strong>Generic Markdown</strong>
+                <span>Previews more files but cannot guarantee the exact document-specific design.</span>
+              </div>
+            </div>
+          </div>
+
+          <details>
+            <summary>Reasoning and review consequence</summary>
+            <div class="detail-body">
+              <div><h4>Why</h4><p>The IDEA explicitly names VS Code and exactly two document templates. A focused desktop extension is the smallest coherent product and avoids speculative compatibility.</p></div>
+              <div><h4>Review consequence</h4><p>Prototype and manual verification will cover both supported filename patterns in desktop VS Code. Other Markdown files must fail with a clear unsupported-document message.</p></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="decision crossroad" id="C2">
+          <div class="decision-main">
+            <div class="decision-topline">
+              <div class="decision-identity">
+                <span class="decision-id">C2</span>
+                <h3>Canonical source and generated artifact</h3>
+              </div>
+              <span class="decision-status accepted">Accepted</span>
+            </div>
+
+            <p class="decision-question">Which file owns content, and what may happen to an existing sibling HTML file?</p>
+
+            <div class="decision-grid">
+              <div class="decision-fact">
+                <h4>Impact if wrong</h4>
+                <p>Two editable sources create drift and can destroy hand-edited HTML. Preview-only output would fail the explicit requirement to create a companion file.</p>
+              </div>
+              <div class="decision-fact proposal">
+                <h4>Proposed choice</h4>
+                <p>Markdown is the only editable source. After a successful parse, generation replaces the same-named sibling <code>.html</code> file deterministically; the HTML is disposable and must never be read back as content.</p>
+              </div>
+            </div>
+
+            <div class="options" aria-label="Options for C2">
+              <div class="option recommended">
+                <strong>Canonical Markdown</strong>
+                <span>Overwrite the derived companion only after the complete output is ready.</span>
+                <span class="recommendation">Chosen in IDEA</span>
+              </div>
+              <div class="option">
+                <strong>Preview only</strong>
+                <span>Avoids generated files but does not satisfy the requested workflow.</span>
+              </div>
+              <div class="option">
+                <strong>Editable HTML companion</strong>
+                <span>Allows bespoke changes but creates a second source of truth.</span>
+              </div>
+            </div>
+          </div>
+
+          <details>
+            <summary>Reasoning and review consequence</summary>
+            <div class="detail-body">
+              <div><h4>Why</h4><p>This preserves the IDEA and the durable-source principle in the Crossroads manifesto. It intentionally updates <code>PAT-001</code>: canonical Markdown and shared assets remain, while manual template copying and the “no renderer runtime” clause are superseded for these two supported document types.</p></div>
+              <div><h4>Review consequence</h4><p>Review should treat generated HTML edits as non-durable and confirm repeat generation is byte-for-byte stable for unchanged Markdown.</p></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="decision crossroad" id="C3">
+          <div class="decision-main">
+            <div class="decision-topline">
+              <div class="decision-identity">
+                <span class="decision-id">C3</span>
+                <h3>Markdown as the document grammar</h3>
+              </div>
+              <span class="decision-status accepted">Accepted</span>
+            </div>
+
+            <p class="decision-question">How does authored Markdown communicate document structure to the renderer?</p>
+
+            <div class="decision-grid">
+              <div class="decision-fact">
+                <h4>Impact if wrong</h4>
+                <p>Front matter, directives, or embedded HTML would permanently change how every issue and Planpoint is authored. Generic rendering would lose the semantic information needed by the exact layouts.</p>
+              </div>
+              <div class="decision-fact proposal">
+                <h4>Proposed choice</h4>
+                <p>Use the existing template headings as the schema and ordinary Markdown blocks—paragraphs, links, emphasis, inline code, fenced code, lists, task lists, and tables—as content. Add no renderer-specific tags, directives, or front matter.</p>
+              </div>
+            </div>
+
+            <div class="options" aria-label="Options for C3">
+              <div class="option recommended">
+                <strong>Heading-defined schemas</strong>
+                <span>Keeps both files natural to read and edit while retaining document semantics.</span>
+                <span class="recommendation">Chosen in IDEA</span>
+              </div>
+              <div class="option">
+                <strong>Metadata or directives</strong>
+                <span>Makes rendering explicit but pollutes the canonical Markdown format.</span>
+              </div>
+              <div class="option">
+                <strong>Generic CommonMark</strong>
+                <span>Needs no schema but cannot choose Framework components reliably.</span>
+              </div>
+            </div>
+          </div>
+
+          <details>
+            <summary>Reasoning and review consequence</summary>
+            <div class="detail-body">
+              <div><h4>Why</h4><p>The existing templates already contain stable semantic headings. They provide enough structure without creating a Crossroads-specific Markdown dialect.</p></div>
+              <div><h4>Review consequence</h4><p>Tests will use unchanged copies of both Markdown templates plus representative filled documents. Any template adjustment must remain valid, readable Markdown without hidden syntax.</p></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="decision crossroad" id="C4">
+          <div class="decision-main">
+            <div class="decision-topline">
+              <div class="decision-identity">
+                <span class="decision-id">C4</span>
+                <h3>Local and safe rendering boundary</h3>
+              </div>
+              <span class="decision-status accepted">Accepted</span>
+            </div>
+
+            <p class="decision-question">May Markdown execute authored HTML or load network content inside the generated view?</p>
+
+            <div class="decision-grid">
+              <div class="decision-fact">
+                <h4>Impact if wrong</h4>
+                <p>Executing raw HTML or remote resources turns a local documentation preview into an active-content security boundary and makes output depend on network availability.</p>
+              </div>
+              <div class="decision-fact proposal">
+                <h4>Proposed choice</h4>
+                <p>Render offline from local workspace assets, escape raw HTML, validate links, and allow only the extension-owned tab and copy interactions. Do not fetch remote scripts, styles, fonts, or rendering services.</p>
+              </div>
+            </div>
+
+            <div class="options" aria-label="Options for C4">
+              <div class="option recommended">
+                <strong>Safe local subset</strong>
+                <span>Predictable output with no authored script execution or runtime network dependency.</span>
+                <span class="recommendation">Recommended</span>
+              </div>
+              <div class="option">
+                <strong>Trusted raw HTML</strong>
+                <span>Allows arbitrary embeds but expands the security surface and authoring language.</span>
+              </div>
+              <div class="option">
+                <strong>Remote renderer</strong>
+                <span>Centralizes rendering but sends local content out of the workspace and requires connectivity.</span>
+              </div>
+            </div>
+          </div>
+
+          <details>
+            <summary>Reasoning and review consequence</summary>
+            <div class="detail-body">
+              <div><h4>Why</h4><p>Crossroads documents are local by design, and the IDEA does not require raw HTML. The safe subset keeps generated files portable and the webview narrowly scoped.</p></div>
+              <div><h4>Review consequence</h4><p>Verification will include escaping hostile HTML, rejecting unsafe links, rendering without network access, and checking the webview content-security policy.</p></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="decision crossroad" id="C5">
+          <div class="decision-main">
+            <div class="decision-topline">
+              <div class="decision-identity">
+                <span class="decision-id">C5</span>
+                <h3>Late-Crossroad policy</h3>
+              </div>
+              <span class="decision-status accepted">Accepted</span>
+            </div>
+
+            <p class="decision-question">What should happen if a new hard-to-reverse choice appears after the unattended build begins?</p>
+
+            <div class="decision-grid">
+              <div class="decision-fact">
+                <h4>Impact if wrong</h4>
+                <p>Stopping unnecessarily defeats the one-shot goal, while guessing at a high-cost choice can produce a product the user would need to unwind.</p>
+              </div>
+              <div class="decision-fact proposal">
+                <h4>Proposed choice</h4>
+                <p>Continue unattended with the option that has the lowest reversal cost, and record the late decision prominently in <code>build.html</code>.</p>
+              </div>
+            </div>
+
+            <div class="options" aria-label="Options for C5">
+              <div class="option recommended">
+                <strong>Continue</strong>
+                <span>Delegates late Crossroads to the lowest-reversal-cost choice and preserves momentum.</span>
+                <span class="recommendation">Recommended</span>
+              </div>
+              <div class="option">
+                <strong>Stop</strong>
+                <span>Leaves the repository safe and returns with the exact decision required.</span>
+              </div>
+            </div>
+          </div>
+
+          <details>
+            <summary>Reasoning and review consequence</summary>
+            <div class="detail-body">
+              <div><h4>Why</h4><p>This is a bounded, local project with no accounts, deployment, or external data, so most unforeseen choices should remain reversible.</p></div>
+              <div><h4>Review consequence</h4><p>Accepting Continue explicitly delegates unforeseen Crossroads; each one must still be visible in the final build record with its alternatives and rationale.</p></div>
+            </div>
+          </details>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="hot-decisions" aria-labelledby="hot-title">
+      <div class="section-heading">
+        <span class="section-number">H</span>
+        <div>
+          <p class="eyebrow">Proposed defaults</p>
+          <h2 id="hot-title">Hot decisions</h2>
+          <p>Opinionated choices worth seeing before the build, but affordable to revise and delegated unless changed.</p>
+        </div>
+      </div>
+
+      <div class="decision-list">
+        <article class="decision hot" id="H1">
+          <div class="decision-main">
+            <div class="decision-topline">
+              <div class="decision-identity">
+                <span class="decision-id">H1</span>
+                <h3>Save, generate, and toggle behavior</h3>
+              </div>
+              <span class="decision-status accepted">Accepted</span>
+            </div>
+
+            <p class="decision-question">What exactly should <code>Ctrl+Alt+Shift+V</code> do across source and preview?</p>
+
+            <div class="decision-grid">
+              <div class="decision-fact proposal">
+                <h4>Proposed approach</h4>
+                <p>From Markdown, save the active document, validate and generate its sibling HTML, then replace the active editor view with the preview in the same editor group. From that preview, the shortcut restores the Markdown editor in place. While open, each later Markdown save regenerates both file and preview; ordinary keystrokes never write HTML.</p>
+              </div>
+              <div class="decision-fact">
+                <h4>Why</h4>
+                <p>The preview feels like VS Code’s Markdown viewer while every on-disk HTML file corresponds to saved Markdown. The official VS Code API supports contributed keybindings, commands, and fully controlled webviews for custom renderings.</p>
+              </div>
+            </div>
+          </div>
+
+          <details>
+            <summary>Alternatives and review focus</summary>
+            <div class="detail-body">
+              <div><h4>Alternatives</h4><p>Open source and preview side by side; render only when invoked; update the generated file on every keystroke; or open the HTML as plain text.</p></div>
+              <div><h4>Review focus</h4><p>Judge whether the in-place full-view toggle, automatic save, preserved editor-group position, and save-triggered refresh match the intended rhythm.</p></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="decision hot" id="H2">
+          <div class="decision-main">
+            <div class="decision-topline">
+              <div class="decision-identity">
+                <span class="decision-id">H2</span>
+                <h3>Exact design and complete content</h3>
+              </div>
+              <span class="decision-status accepted">Accepted</span>
+            </div>
+
+            <p class="decision-question">How should known Markdown sections fit when the reference HTML does not show an explicit component for every section?</p>
+
+            <div class="decision-grid">
+              <div class="decision-fact proposal">
+                <h4>Proposed approach</h4>
+                <p>Keep the existing DOM classes, dimensions, typography, colors, assets, tabs, and interaction language as the design contract. Render every known template section by repeating the nearest existing Framework component; omit an optional component only when its Markdown section is absent. Never add a generic unstyled Markdown fallback.</p>
+              </div>
+              <div class="decision-fact">
+                <h4>Why</h4>
+                <p>This makes the HTML a complete view of the canonical file without inventing a second visual system. It applies <code>STYLE-001</code> and keeps the current issue and Planpoint templates as golden references.</p>
+              </div>
+            </div>
+          </div>
+
+          <details>
+            <summary>Alternatives and review focus</summary>
+            <div class="detail-body">
+              <div><h4>Alternatives</h4><p>Render only the sections already visible in the example HTML and silently omit the rest; append a generic Markdown view for unmatched sections; or redesign the reference templates first.</p></div>
+              <div><h4>Review focus</h4><p>The behavioral prototype will make the issue and Planpoint mappings concrete. Confirm that repeated existing components preserve the exact intended hierarchy without hiding canonical content.</p></div>
+            </div>
+          </details>
+        </article>
+
+        <article class="decision hot" id="H3">
+          <div class="decision-main">
+            <div class="decision-topline">
+              <div class="decision-identity">
+                <span class="decision-id">H3</span>
+                <h3>Schema-aware validation</h3>
+              </div>
+              <span class="decision-status accepted">Accepted</span>
+            </div>
+
+            <p class="decision-question">Should malformed or newly structured Markdown produce partial output or fail before replacement?</p>
+
+            <div class="decision-grid">
+              <div class="decision-fact proposal">
+                <h4>Proposed approach</h4>
+                <p>Parse CommonMark tokens with <code>markdown-it</code>, then validate them against the selected issue or Planpoint heading schema. Missing optional sections are valid; duplicate required sections, malformed decision blocks, and unknown top-level sections produce actionable VS Code diagnostics and leave the last valid HTML untouched.</p>
+              </div>
+              <div class="decision-fact">
+                <h4>Why</h4>
+                <p>A real Markdown parser preserves ordinary formatting better than regular expressions, while schema validation prevents visually plausible but incorrect review documents.</p>
+              </div>
+            </div>
+          </div>
+
+          <details>
+            <summary>Alternatives and review focus</summary>
+            <div class="detail-body">
+              <div><h4>Alternatives</h4><p>Best-effort partial rendering; strict byte-for-byte adherence to the template; a hand-written regex parser; or dependence on VS Code’s non-public internal Markdown renderer.</p></div>
+              <div><h4>Review focus</h4><p>Check that valid variation is accepted, errors name the file and heading to fix, no failed render overwrites a valid companion, and the supported Markdown subset is documented.</p></div>
+            </div>
+          </details>
+        </article>
+      </div>
+    </section>
+
+    <footer class="page-footer">
+      Generated from <code>IDEA.md</code> by the One Shot workflow. This record contains Crossroad and Hot decisions only.
+    </footer>
+  </main>
+</body>
+</html>

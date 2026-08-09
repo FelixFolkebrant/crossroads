@@ -1,0 +1,1325 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Behavioral prototype for the Crossroads Preview VS Code extension">
+  <title>Crossroads Preview · Behavioral Prototype</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --shell: #181818;
+      --chrome: #202020;
+      --editor: #1f1f1f;
+      --sidebar: #181818;
+      --line: #2b2b2b;
+      --line-strong: #3c3c3c;
+      --text: #cccccc;
+      --muted: #8f8f8f;
+      --blue: #0078d4;
+      --blue-bright: #5ba7e8;
+      --red: #f14c4c;
+      --amber: #cca700;
+      --green: #89d185;
+      --framework-canvas: #1b1b1c;
+      --framework-header: #171717;
+      --framework-surface: #252525;
+      --framework-chip: #373737;
+      --plan-gradient: linear-gradient(106deg, #0f1e42 0%, #135aa9 100%);
+      --crossroad-gradient: conic-gradient(from 90deg at 50% 50%, #0b1473 0deg, #111da6 180deg, #1626d9 360deg);
+      --hot-gradient: linear-gradient(to top, #f00 0%, #910000 58%, #600000 97%);
+      --warm-gradient: linear-gradient(to top, #e7f88e 0%, #ffb921 70%, #fb9e7c 100%);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      min-width: 320px;
+      min-height: 100%;
+      margin: 0;
+      background: #111;
+    }
+
+    body {
+      padding: clamp(12px, 2vw, 28px);
+      color: var(--text);
+    }
+
+    button,
+    select {
+      font: inherit;
+    }
+
+    button:focus-visible,
+    select:focus-visible,
+    [tabindex]:focus-visible,
+    summary:focus-visible,
+    a:focus-visible {
+      outline: 2px solid #75beff;
+      outline-offset: 2px;
+    }
+
+    .prototype-header {
+      display: flex;
+      gap: 24px;
+      align-items: end;
+      justify-content: space-between;
+      width: min(1480px, 100%);
+      margin: 0 auto 14px;
+    }
+
+    .prototype-header h1 {
+      margin: 0 0 5px;
+      color: #fff;
+      font-size: clamp(22px, 3vw, 34px);
+      letter-spacing: -.025em;
+    }
+
+    .prototype-header p {
+      max-width: 760px;
+      margin: 0;
+      color: #aaa;
+      line-height: 1.5;
+    }
+
+    .prototype-badge {
+      flex: 0 0 auto;
+      padding: 7px 11px;
+      color: #d7e9f8;
+      border: 1px solid #325e80;
+      border-radius: 999px;
+      background: #142d40;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .scenario-bar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      width: min(1480px, 100%);
+      margin: 0 auto 14px;
+      padding: 10px 12px;
+      border: 1px solid var(--line-strong);
+      border-radius: 8px;
+      background: #202020;
+    }
+
+    .scenario-bar label {
+      color: #fff;
+      font-size: 13px;
+      font-weight: 650;
+    }
+
+    .scenario-bar select {
+      min-width: 240px;
+      padding: 6px 30px 6px 9px;
+      color: #fff;
+      border: 1px solid #555;
+      border-radius: 3px;
+      background: #333;
+    }
+
+    .scenario-description {
+      flex: 1;
+      margin: 0;
+      color: #aaa;
+      font-size: 13px;
+    }
+
+    .workbench {
+      position: relative;
+      display: grid;
+      grid-template-rows: 35px minmax(570px, calc(100vh - 190px)) 22px;
+      width: min(1480px, 100%);
+      min-height: 650px;
+      margin: 0 auto;
+      overflow: hidden;
+      border: 1px solid #333;
+      border-radius: 9px;
+      background: var(--shell);
+      box-shadow: 0 24px 80px rgb(0 0 0 / 45%);
+    }
+
+    .titlebar {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      padding: 0 12px;
+      border-bottom: 1px solid var(--line);
+      background: #181818;
+      font-size: 12px;
+      user-select: none;
+    }
+
+    .titlebar__menu {
+      display: flex;
+      gap: 14px;
+    }
+
+    .titlebar__title {
+      color: #aaa;
+    }
+
+    .titlebar__window {
+      justify-self: end;
+      color: #777;
+      letter-spacing: 7px;
+    }
+
+    .workspace {
+      display: grid;
+      grid-template-columns: 48px 245px minmax(0, 1fr);
+      min-height: 0;
+    }
+
+    .activitybar {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding-top: 8px;
+      border-right: 1px solid var(--line);
+      background: #181818;
+    }
+
+    .activity-icon {
+      display: grid;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      color: #8b8b8b;
+      border-left: 2px solid transparent;
+      font-size: 20px;
+    }
+
+    .activity-icon.active {
+      color: #fff;
+      border-left-color: #fff;
+    }
+
+    .sidebar {
+      min-width: 0;
+      border-right: 1px solid var(--line);
+      background: var(--sidebar);
+      font-size: 13px;
+    }
+
+    .sidebar__title {
+      height: 35px;
+      padding: 11px 18px 0;
+      color: #bbb;
+      font-size: 11px;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .tree-heading {
+      padding: 6px 8px;
+      color: #ddd;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .file-tree {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .file-tree li {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      height: 23px;
+      padding: 0 8px 0 28px;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    .file-tree li.active {
+      color: #fff;
+      background: #37373d;
+    }
+
+    .file-tree li.derived {
+      color: #9a9a9a;
+    }
+
+    .file-icon {
+      color: #519aba;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .file-icon.html {
+      color: #e37933;
+    }
+
+    .editor-group {
+      position: relative;
+      display: grid;
+      grid-template-rows: 35px minmax(0, 1fr);
+      min-width: 0;
+      min-height: 0;
+      background: var(--editor);
+    }
+
+    .editor-tabs {
+      display: flex;
+      min-width: 0;
+      border-bottom: 1px solid var(--line);
+      background: #181818;
+    }
+
+    .editor-tab {
+      display: flex;
+      gap: 7px;
+      align-items: center;
+      min-width: 150px;
+      max-width: 230px;
+      height: 35px;
+      padding: 0 11px;
+      overflow: hidden;
+      color: #929292;
+      border-right: 1px solid var(--line);
+      background: #181818;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+
+    .editor-tab.active {
+      color: #fff;
+      border-top: 1px solid var(--blue);
+      background: var(--editor);
+    }
+
+    .editor-tab[hidden] {
+      display: none;
+    }
+
+    .editor-tab__name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .dirty-dot {
+      width: 8px;
+      height: 8px;
+      margin-left: auto;
+      border-radius: 50%;
+      background: #ddd;
+    }
+
+    .editor-surface {
+      position: relative;
+      min-height: 0;
+      overflow: hidden;
+    }
+
+    .source-view,
+    .preview-view {
+      position: absolute;
+      inset: 0;
+    }
+
+    .source-view[hidden],
+    .preview-view[hidden] {
+      display: none;
+    }
+
+    .source-view {
+      overflow: auto;
+      background: #1f1f1f;
+      font: 14px/1.55 "SFMono-Regular", Consolas, monospace;
+      scrollbar-color: #555 transparent;
+    }
+
+    .breadcrumbs {
+      position: sticky;
+      z-index: 2;
+      top: 0;
+      height: 27px;
+      padding: 5px 13px;
+      color: #999;
+      border-bottom: 1px solid #2a2a2a;
+      background: #1f1f1f;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 12px;
+    }
+
+    .code-lines {
+      display: grid;
+      grid-template-columns: 48px minmax(700px, 1fr);
+      min-width: max-content;
+      padding: 10px 0 60px;
+    }
+
+    .line-numbers,
+    .markdown-source {
+      margin: 0;
+      white-space: pre;
+    }
+
+    .line-numbers {
+      padding: 0 14px 0 0;
+      color: #6b6b6b;
+      text-align: right;
+      user-select: none;
+    }
+
+    .markdown-source {
+      padding: 0 50px 0 0;
+      color: #d4d4d4;
+    }
+
+    .md-heading {
+      color: #569cd6;
+    }
+
+    .md-title {
+      color: #4ec9b0;
+    }
+
+    .md-code {
+      color: #ce9178;
+    }
+
+    .md-list {
+      color: #b5cea8;
+    }
+
+    .problem-line {
+      padding-bottom: 1px;
+      text-decoration: underline wavy var(--red);
+      text-underline-offset: 4px;
+    }
+
+    .preview-view {
+      overflow: auto;
+      background: var(--framework-canvas);
+      scrollbar-color: #555 transparent;
+    }
+
+    .preview-toolbar {
+      position: sticky;
+      z-index: 8;
+      top: 0;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 34px;
+      padding: 5px 10px;
+      color: #aaa;
+      border-bottom: 1px solid #333;
+      background: rgb(24 24 24 / 96%);
+      font-size: 12px;
+      backdrop-filter: blur(8px);
+    }
+
+    .prototype-note {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .prototype-note strong {
+      color: #fff;
+    }
+
+    .shortcut-button {
+      padding: 4px 9px;
+      color: #fff;
+      border: 1px solid #555;
+      border-radius: 3px;
+      background: #333;
+      cursor: pointer;
+    }
+
+    .shortcut-button:hover {
+      background: #444;
+    }
+
+    .framework-document {
+      position: relative;
+      width: min(1120px, calc(100% - 48px));
+      min-height: 100%;
+      margin: 0 auto;
+      padding: 56px 0 100px;
+      color: #fff;
+      font-family: "Trebuchet MS", Arial, sans-serif;
+    }
+
+    .framework-brand {
+      position: absolute;
+      top: 18px;
+      left: 0;
+      display: flex;
+      align-items: center;
+      font-family: Georgia, serif;
+      font-size: 25px;
+      letter-spacing: -.04em;
+    }
+
+    .brand-mark {
+      position: relative;
+      width: 27px;
+      height: 27px;
+      overflow: hidden;
+      border-radius: 50%;
+      background: linear-gradient(180deg, #58a0ff 0%, #7edcff 100%);
+    }
+
+    .brand-mark::before,
+    .brand-mark::after {
+      position: absolute;
+      top: 12px;
+      left: 1px;
+      width: 25px;
+      height: 8px;
+      border-top: 2px solid #0e1d41;
+      border-radius: 50%;
+      content: "";
+      transform: rotate(18deg);
+    }
+
+    .brand-mark::after {
+      top: 8px;
+      transform: rotate(-18deg);
+    }
+
+    .document-path {
+      margin: 48px 0 13px;
+      color: rgb(255 255 255 / 30%);
+      font: 14px/1.3 "SFMono-Regular", Consolas, monospace;
+    }
+
+    .framework-title {
+      margin: 0 0 28px;
+      overflow: hidden;
+      font: 400 clamp(54px, 7vw, 92px)/1.05 Georgia, serif;
+      letter-spacing: -.045em;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .framework-tabs {
+      display: flex;
+      gap: 36px;
+      margin-bottom: 48px;
+    }
+
+    .framework-tab {
+      position: relative;
+      padding: 0 0 6px;
+      color: rgb(255 255 255 / 25%);
+      border: 0;
+      background: transparent;
+      font: 400 clamp(32px, 4vw, 48px)/1.1 Georgia, serif;
+      cursor: pointer;
+    }
+
+    .framework-tab:hover {
+      color: rgb(255 255 255 / 60%);
+    }
+
+    .framework-tab.active {
+      color: #fff;
+    }
+
+    .framework-tab.active::after {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      background: #fff;
+      content: "";
+    }
+
+    .framework-panel[hidden] {
+      display: none;
+    }
+
+    .framework-intro {
+      max-width: 820px;
+      margin: 0 0 45px;
+      font-size: 23px;
+      line-height: 1.25;
+    }
+
+    .doc-block + .doc-block,
+    .framework-details + .framework-details,
+    .section-stack + .section-stack {
+      margin-top: 22px;
+    }
+
+    .doc-block h2 {
+      margin: 0;
+      padding: 23px 32px;
+      background: var(--framework-header);
+      font: 400 clamp(32px, 4vw, 48px)/1.2 Georgia, serif;
+    }
+
+    .doc-block.plan h2 {
+      background: var(--plan-gradient);
+    }
+
+    .doc-block > div {
+      padding: 24px 32px;
+      color: rgb(255 255 255 / 48%);
+      background: var(--framework-surface);
+      font-size: 20px;
+      line-height: 1.4;
+    }
+
+    .doc-block p,
+    .doc-block ul,
+    .doc-block ol {
+      margin-top: 0;
+      margin-bottom: 0;
+    }
+
+    .doc-block li + li {
+      margin-top: 8px;
+    }
+
+    .framework-code {
+      display: inline-block;
+      padding: 4px 8px;
+      color: rgb(255 255 255 / 58%);
+      background: var(--framework-chip);
+      font: 15px/1.2 "SFMono-Regular", Consolas, monospace;
+    }
+
+    .scope-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      margin-bottom: 48px;
+    }
+
+    .scope-card h2 {
+      min-height: 96px;
+      margin: 0;
+      padding: 22px 24px;
+      background: var(--framework-header);
+      font: 400 34px/1.15 Georgia, serif;
+    }
+
+    .scope-card.slice h2 {
+      background: var(--plan-gradient);
+    }
+
+    .scope-card.deferred h2 {
+      color: #8c581c;
+      background: var(--warm-gradient);
+    }
+
+    .scope-card > div {
+      min-height: 220px;
+      padding: 24px;
+      color: rgb(255 255 255 / 45%);
+      background: var(--framework-surface);
+      font-size: 18px;
+      line-height: 1.4;
+    }
+
+    .scope-card:nth-child(2) > div {
+      background: #202020;
+    }
+
+    .scope-card ul {
+      padding-left: 22px;
+    }
+
+    .section-title {
+      margin: 44px 0 14px;
+      font: 400 42px/1.2 Georgia, serif;
+    }
+
+    .framework-details summary {
+      min-height: 86px;
+      padding: 20px 30px;
+      background: var(--framework-header);
+      font: 400 clamp(28px, 3.5vw, 42px)/1.15 Georgia, serif;
+      cursor: pointer;
+      list-style: none;
+    }
+
+    .framework-details summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .framework-details.hot summary {
+      background: var(--hot-gradient);
+    }
+
+    .framework-details.warm summary {
+      color: #8c581c;
+      background: var(--warm-gradient);
+    }
+
+    .framework-details.cold summary {
+      color: #090dff;
+      background: linear-gradient(to top, #63a7ff 0%, #586eff 84%);
+    }
+
+    .framework-details.crossroad summary {
+      background: var(--crossroad-gradient);
+    }
+
+    .framework-details > div {
+      padding: 23px 30px;
+      color: rgb(255 255 255 / 45%);
+      background: var(--framework-surface);
+      font-size: 19px;
+      line-height: 1.42;
+    }
+
+    .decision-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 35px;
+    }
+
+    .decision-columns h3 {
+      margin: 0 0 10px;
+      color: #fff;
+      font: 400 32px/1.1 Georgia, serif;
+    }
+
+    .decision-columns p,
+    .decision-columns ol {
+      margin: 0;
+    }
+
+    .plumbing {
+      display: grid;
+      grid-template-columns: 1fr 65px 1fr 65px 1fr;
+      align-items: center;
+      padding: 34px;
+      background: linear-gradient(180deg, rgb(0 67 153 / 60%), rgb(122 215 255 / 60%));
+    }
+
+    .plumbing div {
+      padding: 25px 12px;
+      border: 2px solid #fff;
+      text-align: center;
+    }
+
+    .plumbing small {
+      display: block;
+      margin-bottom: 8px;
+      color: rgb(255 255 255 / 60%);
+      font: 12px monospace;
+      text-transform: uppercase;
+    }
+
+    .plumbing span {
+      height: 2px;
+      background: #fff;
+    }
+
+    .empty-view {
+      padding: 50px 32px;
+      color: rgb(255 255 255 / 42%);
+      background: var(--framework-surface);
+      text-align: center;
+    }
+
+    .empty-view strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #fff;
+      font: 400 32px Georgia, serif;
+    }
+
+    .statusbar {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      padding: 0 9px;
+      color: #fff;
+      background: #007acc;
+      font-size: 11px;
+    }
+
+    .statusbar.error {
+      background: #be1100;
+    }
+
+    .statusbar__message {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .toast {
+      position: absolute;
+      z-index: 20;
+      right: 18px;
+      bottom: 40px;
+      width: min(440px, calc(100% - 36px));
+      padding: 13px 15px;
+      color: #ddd;
+      border: 1px solid #454545;
+      border-left: 3px solid var(--blue-bright);
+      background: #252526;
+      box-shadow: 0 8px 25px rgb(0 0 0 / 45%);
+      font-size: 13px;
+      line-height: 1.45;
+      transform: translateY(15px);
+      opacity: 0;
+      pointer-events: none;
+      transition: 150ms ease;
+    }
+
+    .toast.visible {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.error {
+      border-left-color: var(--red);
+    }
+
+    .toast strong {
+      display: block;
+      margin-bottom: 3px;
+      color: #fff;
+    }
+
+    .prototype-footer {
+      width: min(1480px, 100%);
+      margin: 11px auto 0;
+      color: #888;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .prototype-footer kbd {
+      padding: 2px 5px;
+      color: #ccc;
+      border: 1px solid #555;
+      border-bottom-width: 2px;
+      border-radius: 3px;
+      background: #222;
+      font: 11px monospace;
+    }
+
+    @media (max-width: 900px) {
+      body {
+        padding: 8px;
+      }
+
+      .prototype-header {
+        align-items: start;
+      }
+
+      .scenario-bar {
+        display: grid;
+        grid-template-columns: auto 1fr;
+      }
+
+      .scenario-description {
+        grid-column: 1 / -1;
+      }
+
+      .workbench {
+        grid-template-rows: 35px minmax(610px, calc(100vh - 205px)) 22px;
+      }
+
+      .workspace {
+        grid-template-columns: 42px minmax(0, 1fr);
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .activitybar {
+        grid-column: 1;
+      }
+
+      .editor-group {
+        grid-column: 2;
+      }
+
+      .framework-document {
+        width: calc(100% - 28px);
+        padding-top: 48px;
+      }
+
+      .framework-tabs {
+        gap: 18px;
+        overflow-x: auto;
+      }
+
+      .scope-grid,
+      .decision-columns {
+        grid-template-columns: 1fr;
+      }
+
+      .scope-card > div {
+        min-height: 0;
+      }
+
+      .plumbing {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .plumbing span {
+        width: 2px;
+        height: 35px;
+        justify-self: center;
+      }
+    }
+
+    @media (max-width: 570px) {
+      .prototype-header p,
+      .prototype-badge,
+      .titlebar__menu,
+      .preview-toolbar .prototype-note {
+        display: none;
+      }
+
+      .titlebar {
+        grid-template-columns: 1fr;
+        justify-items: center;
+      }
+
+      .scenario-bar {
+        grid-template-columns: 1fr;
+      }
+
+      .scenario-bar select,
+      .scenario-description {
+        min-width: 0;
+        grid-column: 1;
+      }
+
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .activitybar {
+        display: none;
+      }
+
+      .editor-group {
+        grid-column: 1;
+      }
+
+      .framework-tab {
+        font-size: 30px;
+      }
+
+      .framework-intro {
+        font-size: 19px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="prototype-header">
+    <div>
+      <h1>Crossroads Preview prototype</h1>
+      <p>Judge the full-view source/preview toggle and the renderer’s success, sparse-content, and failure behavior. File writes and VS Code notifications are simulated; the document interactions are real.</p>
+    </div>
+    <span class="prototype-badge">Gate 2 prototype</span>
+  </header>
+
+  <div class="scenario-bar">
+    <label for="scenario">Scenario</label>
+    <select id="scenario">
+      <option value="issue">Issue · replace existing companion</option>
+      <option value="planpoint">Planpoint · first generation</option>
+      <option value="empty">Issue · optional sections empty</option>
+      <option value="error">Issue · invalid heading structure</option>
+    </select>
+    <p class="scenario-description" id="scenario-description"></p>
+  </div>
+
+  <main class="workbench" aria-label="Simulated Visual Studio Code window">
+    <div class="titlebar">
+      <div class="titlebar__menu"><span>File</span><span>Edit</span><span>Selection</span><span>View</span><span>Go</span><span>Run</span></div>
+      <span class="titlebar__title" id="window-title">GH-042.md — crossroads</span>
+      <span class="titlebar__window">— □ ×</span>
+    </div>
+
+    <div class="workspace">
+      <aside class="activitybar" aria-label="Activity bar">
+        <span class="activity-icon active" aria-label="Explorer">▱</span>
+        <span class="activity-icon" aria-label="Search">⌕</span>
+        <span class="activity-icon" aria-label="Source Control">⑂</span>
+        <span class="activity-icon" aria-label="Extensions">▦</span>
+      </aside>
+
+      <aside class="sidebar" aria-label="Explorer">
+        <div class="sidebar__title">Explorer</div>
+        <div class="tree-heading">⌄ Crossroads</div>
+        <ul class="file-tree" id="file-tree"></ul>
+      </aside>
+
+      <section class="editor-group" aria-label="Editor group">
+        <div class="editor-tabs" role="tablist" aria-label="Open editors">
+          <div class="editor-tab active" id="source-tab" role="tab" aria-selected="true">
+            <span class="file-icon">M↓</span><span class="editor-tab__name" id="source-tab-name">GH-042.md</span><span class="dirty-dot" id="dirty-dot" title="Unsaved changes"></span>
+          </div>
+          <div class="editor-tab" id="preview-tab" role="tab" aria-selected="false" hidden>
+            <span aria-hidden="true">◉</span><span class="editor-tab__name" id="preview-tab-name">Preview GH-042.md</span>
+          </div>
+        </div>
+
+        <div class="editor-surface">
+          <section class="source-view" id="source-view" aria-label="Markdown source editor">
+            <div class="breadcrumbs" id="breadcrumbs">docs › wip › GH-042.md</div>
+            <div class="code-lines">
+              <pre class="line-numbers" id="line-numbers" aria-hidden="true"></pre>
+              <pre class="markdown-source" id="markdown-source"></pre>
+            </div>
+          </section>
+
+          <section class="preview-view" id="preview-view" aria-label="Rendered Crossroads preview" hidden>
+            <div class="preview-toolbar">
+              <span class="prototype-note"><strong>Simulated preview</strong> Full editor group; no source pane beside it.</span>
+              <button class="shortcut-button" type="button" data-toggle>Return to Markdown</button>
+            </div>
+            <div id="rendered-document"></div>
+          </section>
+        </div>
+      </section>
+    </div>
+
+    <div class="statusbar" id="statusbar">
+      <span>⑂ felixf/GH-003/0*</span>
+      <span class="statusbar__message" id="status-message">Markdown source ready · Press Ctrl+Alt+Shift+V</span>
+      <span id="problem-count">✓ 0</span>
+      <span>Spaces: 2</span>
+      <span>UTF-8</span>
+      <span>Markdown</span>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </main>
+
+  <p class="prototype-footer">Press <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>V</kbd> anywhere in the prototype, or use the preview button after rendering. Choose scenarios above to inspect each promised state.</p>
+
+  <script>
+    const scenarios = {
+      issue: {
+        file: "GH-042.md",
+        html: "GH-042.html",
+        path: "docs/wip/GH-042.md",
+        description: "A saved issue replaces its existing generated companion, then the full editor group switches to the Framework preview.",
+        status: "Replaced docs/wip/GH-042.html from saved Markdown · 14:32:08",
+        source: `# GH-042: Render Crossroads documents\n\n## Template Guidance\n\nThis is the durable issue record.\n\n# What\n\n- Added a VS Code command that renders canonical Markdown.\n\n# Acceptance Criteria\n\n- [x] Ctrl+Alt+Shift+V toggles the full editor view.\n- [x] The sibling HTML file is generated deterministically.\n- [ ] Reviewer confirms the exact Framework appearance.\n\n# Plan Diff\n\n- Side-by-side preview changed to a same-group full-view toggle.\n\n# Confirmation\n\n## Automated Checks\n\n- Command: npm test\n- Result: Parser and renderer suites pass.\n\n## Manual Testing\n\n- Start the feature: Press F5 in VS Code.\n- Action: Open GH-042.md and press Ctrl+Alt+Shift+V.\n- Expected result: GH-042.html is replaced and fills the editor.\n\n# Project Guidance\n\n- Applied patterns: PAT-001 (updated)\n- Applied style: STYLE-001\n\n# Heatmap\n\n## Hot\n\n### H1 - Toggle the whole editor view\n\n- Decision: Preview replaces the active editor surface.\n- Why: The user chose the non-side-by-side Markdown viewer flow.\n- Alternatives: Open source and preview side by side.\n\n## Warm\n\n- Where: src/render/issue.ts\n- What: Reuse the accepted Framework component structure.\n\n## Cold\n\n| Where | What |\n|---|---|\n| src/extension.ts | Register the contributed command. |\n\n# Notes\n\n- Generated HTML remains disposable.`,
+        render: renderIssue,
+        existingHtml: true,
+      },
+      planpoint: {
+        file: "PP-3.md",
+        html: "PP-3.html",
+        path: "docs/planpoints/PP-3.md",
+        description: "A Planpoint with no previous HTML companion generates one and opens its three-tab Framework view in place.",
+        status: "Created docs/planpoints/PP-3.html from saved Markdown · 14:32:08",
+        source: `# PP-3: Automated document views\n\n## Template Guidance\n\nA Planpoint sits above issues.\n\n# Slice\n\nMarkdown can be rendered into exact local review views.\n\n- One shortcut generates a companion file.\n- Issue and Planpoint content follow typed schemas.\n\n## Out Of Scope\n\n- Generic Markdown preview\n- VS Code for the Web\n\n## Deferred To Later Planpoints\n\n- Roadmap and issue-plan renderers\n- Marketplace publishing\n\n# Crossroads\n\n## C1 - Where should content ownership live?\n\n- Decision: Markdown remains canonical.\n- Options: Markdown, HTML, or two-way editing.\n- Impact if wrong: Documents drift.\n- Proposed choice: Markdown.\n- Why: It stays readable by humans and AI.\n- Status: decided\n\n# Plumbing\n\n- Threaded now: Parsed Slice content reaches one Framework card.\n- Pattern set: Each document type owns a typed renderer.\n\n# Issues\n\n1. **GH-042 - Build the renderer**: Parse and render both schemas.\n2. **GH-043 - Add editor integration**: Toggle the generated preview.\n\n# Conceptual Heatmap\n\n## Crossroads\n\n- C1: Markdown owns content; see Crossroads section.\n\n## Hot\n\n### H1 - Use a full-view toggle\n\n- Decision: Source and preview reuse one editor group.\n- Why: It keeps review focused.\n- Alternatives: Side-by-side preview.`,
+        render: renderPlanpoint,
+        existingHtml: false,
+      },
+      empty: {
+        file: "GH-043.md",
+        html: "GH-043.html",
+        path: "docs/wip/GH-043.md",
+        description: "A structurally valid issue with optional sections omitted still renders; unused Framework components are removed.",
+        status: "Created docs/wip/GH-043.html · Optional sections omitted · 14:32:08",
+        source: `# GH-043: Empty-state example\n\n# What\n\n- Confirm that optional document sections can be absent.\n\n# Acceptance Criteria\n\n# Plan Diff\n\n- None\n\n# Confirmation\n\n## Automated Checks\n\n## Manual Testing\n\n# Project Guidance\n\n- Applied patterns: PAT-001\n- Applied style: STYLE-001\n\n# Heatmap\n\n## Hot\n\n## Warm\n\n## Cold\n\n# Notes`,
+        render: renderEmpty,
+        existingHtml: false,
+      },
+      error: {
+        file: "GH-044.md",
+        html: "GH-044.html",
+        path: "docs/wip/GH-044.md",
+        description: "A duplicate required heading produces a diagnostic, keeps the source visible, and leaves the prior HTML companion untouched.",
+        status: "Cannot render GH-044.md · Duplicate # Confirmation at line 20 · GH-044.html unchanged",
+        source: `# GH-044: Invalid structure\n\n# What\n\n- Demonstrate a schema validation failure.\n\n# Acceptance Criteria\n\n- [ ] Invalid structure must not replace valid HTML.\n\n# Plan Diff\n\n- None\n\n# Confirmation\n\n## Automated Checks\n\n- Command: npm test\n- Result: passes\n\n# Confirmation\n\n## Manual Testing\n\n- This duplicate heading should be diagnosed.\n\n# Project Guidance\n\n- Applied patterns: PAT-001\n\n# Heatmap\n\n# Notes`,
+        render: null,
+        existingHtml: true,
+        error: true,
+      },
+    };
+
+    let scenarioKey = "issue";
+    let view = "source";
+    let toastTimer;
+
+    const scenarioSelect = document.querySelector("#scenario");
+    const scenarioDescription = document.querySelector("#scenario-description");
+    const fileTree = document.querySelector("#file-tree");
+    const sourceTab = document.querySelector("#source-tab");
+    const previewTab = document.querySelector("#preview-tab");
+    const sourceTabName = document.querySelector("#source-tab-name");
+    const previewTabName = document.querySelector("#preview-tab-name");
+    const sourceView = document.querySelector("#source-view");
+    const previewView = document.querySelector("#preview-view");
+    const breadcrumbs = document.querySelector("#breadcrumbs");
+    const lineNumbers = document.querySelector("#line-numbers");
+    const markdownSource = document.querySelector("#markdown-source");
+    const renderedDocument = document.querySelector("#rendered-document");
+    const dirtyDot = document.querySelector("#dirty-dot");
+    const statusbar = document.querySelector("#statusbar");
+    const statusMessage = document.querySelector("#status-message");
+    const problemCount = document.querySelector("#problem-count");
+    const windowTitle = document.querySelector("#window-title");
+    const toast = document.querySelector("#toast");
+
+    function escapeHtml(value) {
+      return value
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;");
+    }
+
+    function highlightMarkdown(source, hasError) {
+      return source.split("\n").map((line, index) => {
+        let escaped = escapeHtml(line);
+        if (/^#{1,3} /.test(line)) {
+          const separator = escaped.indexOf(" ");
+          escaped = `<span class="md-heading">${escaped.slice(0, separator)}</span><span class="md-title">${escaped.slice(separator)}</span>`;
+        } else if (/^(- |\d+\. )/.test(line)) {
+          escaped = `<span class="md-list">${escaped}</span>`;
+        }
+        escaped = escaped.replaceAll(/`([^`]+)`/g, '<span class="md-code">`$1`</span>');
+        if (hasError && index === 19) escaped = `<span class="problem-line">${escaped}</span>`;
+        return escaped;
+      }).join("\n");
+    }
+
+    function renderTree(data) {
+      const folder = data.file.startsWith("PP-") ? "planpoints" : "wip";
+      fileTree.innerHTML = `
+        <li><span aria-hidden="true">⌄</span><strong>docs</strong></li>
+        <li><span aria-hidden="true">⌄</span><strong>${folder}</strong></li>
+        <li class="active"><span class="file-icon">M↓</span><span>${data.file}</span></li>
+        ${data.existingHtml || view === "preview" ? `<li class="derived"><span class="file-icon html">&lt;&gt;</span><span>${data.html}</span></li>` : ""}
+        <li><span class="file-icon">M↓</span><span>.gitkeep</span></li>`;
+    }
+
+    function setScenario(key) {
+      scenarioKey = key;
+      view = "source";
+      const data = scenarios[key];
+      scenarioDescription.textContent = data.description;
+      sourceTabName.textContent = data.file;
+      previewTabName.textContent = `Preview ${data.file}`;
+      windowTitle.textContent = `${data.file} — crossroads`;
+      breadcrumbs.textContent = data.path.replaceAll("/", " › ");
+      const lineCount = data.source.split("\n").length;
+      lineNumbers.textContent = Array.from({length: lineCount}, (_, index) => index + 1).join("\n");
+      markdownSource.innerHTML = highlightMarkdown(data.source, data.error);
+      dirtyDot.hidden = false;
+      previewTab.hidden = true;
+      renderedDocument.innerHTML = "";
+      statusbar.classList.toggle("error", Boolean(data.error));
+      statusMessage.textContent = data.error
+        ? "Markdown source contains a structural error · Rendering has not run"
+        : "Markdown source ready · Press Ctrl+Alt+Shift+V";
+      problemCount.textContent = data.error ? "ⓧ 1" : "✓ 0";
+      renderTree(data);
+      updateView();
+    }
+
+    function updateView() {
+      const previewing = view === "preview";
+      sourceView.hidden = previewing;
+      previewView.hidden = !previewing;
+      sourceTab.classList.toggle("active", !previewing);
+      previewTab.classList.toggle("active", previewing);
+      sourceTab.setAttribute("aria-selected", String(!previewing));
+      previewTab.setAttribute("aria-selected", String(previewing));
+      windowTitle.textContent = previewing
+        ? `Preview ${scenarios[scenarioKey].file} — crossroads`
+        : `${scenarios[scenarioKey].file} — crossroads`;
+    }
+
+    function showToast(title, message, isError = false) {
+      window.clearTimeout(toastTimer);
+      toast.className = `toast visible${isError ? " error" : ""}`;
+      toast.innerHTML = `<strong>${title}</strong>${message}`;
+      toastTimer = window.setTimeout(() => toast.classList.remove("visible"), 4200);
+    }
+
+    function togglePreview() {
+      const data = scenarios[scenarioKey];
+      if (view === "preview") {
+        view = "source";
+        statusMessage.textContent = `${data.html} remains generated · Markdown source restored`;
+        updateView();
+        showToast("Markdown restored", "The preview tab remains available in the same editor group.");
+        return;
+      }
+
+      dirtyDot.hidden = true;
+      if (data.error) {
+        statusbar.classList.add("error");
+        statusMessage.textContent = data.status;
+        problemCount.textContent = "ⓧ 1";
+        showToast("Crossroads Preview could not render", "Duplicate required heading <code># Confirmation</code> at line 20. Existing <code>GH-044.html</code> was not changed.", true);
+        return;
+      }
+
+      renderedDocument.innerHTML = data.render();
+      previewTab.hidden = false;
+      view = "preview";
+      statusbar.classList.remove("error");
+      statusMessage.textContent = data.status;
+      problemCount.textContent = "✓ 0";
+      renderTree(data);
+      updateView();
+      showToast(
+        data.existingHtml ? "Generated companion replaced" : "Generated companion created",
+        `<code>${data.html}</code> now reflects saved <code>${data.file}</code>. Press the shortcut again to return.`,
+      );
+    }
+
+    function tabs(documentType, active = "what") {
+      const names = documentType === "planpoint"
+        ? [["what", "What?"], ["issues", "Issues"], ["heatmap", "Heatmap"]]
+        : [["what", "What?"], ["heatmap", "Heatmap"], ["testing", "Testing"]];
+      return `<nav class="framework-tabs" aria-label="Rendered document sections">${names.map(([id, label]) => `<button class="framework-tab${id === active ? " active" : ""}" type="button" data-framework-tab="${id}">${label}</button>`).join("")}</nav>`;
+    }
+
+    function renderIssue() {
+      return `<article class="framework-document" data-framework-document="issue">
+        <div class="framework-brand"><span class="brand-mark"></span><span>rossroads</span></div>
+        <p class="document-path">PP-3/GH-042.md</p>
+        ${tabs("issue")}
+        <section class="framework-panel" data-framework-panel="what">
+          <p class="framework-intro">Added a VS Code command that renders canonical Markdown into the exact Framework review view and toggles it across the full editor group.</p>
+          <article class="doc-block plan"><h2>Plan diff: Full-view toggle</h2><div><p>The accepted direction replaces the initial side-by-side proposal with the same-group Markdown viewer behavior.</p></div></article>
+          <article class="doc-block"><h2>Acceptance Criteria</h2><div><ul><li>✓ Shortcut toggles the full editor view</li><li>✓ Companion HTML is deterministic</li><li>□ Reviewer confirms the exact appearance</li></ul></div></article>
+          <article class="doc-block"><h2>Project Guidance</h2><div><p>Applied <span class="framework-code">PAT-001</span> with its renderer clause updated, and <span class="framework-code">STYLE-001</span> without visual changes.</p></div></article>
+          <article class="doc-block"><h2>Notes</h2><div><p>Generated HTML remains disposable; Markdown is always canonical.</p></div></article>
+        </section>
+        <section class="framework-panel" data-framework-panel="heatmap" hidden>
+          <details class="framework-details hot" open><summary>Hot H1: Toggle the whole editor view</summary><div class="decision-columns"><section><h3>Why?</h3><p>The source and preview use the same editor group so review can occupy the full available width.</p></section><section><h3>Alternatives</h3><ol><li>Open source and preview side by side</li><li>Open the companion as HTML source</li></ol></section></div></details>
+          <details class="framework-details warm"><summary>Warm: Reuse Framework document structure</summary><div>The accepted style guidance settles the shared design components.</div></details>
+          <details class="framework-details cold"><summary>Cold: Register the VS Code command</summary><div>Routine extension wiring follows the accepted host choice.</div></details>
+        </section>
+        <section class="framework-panel" data-framework-panel="testing" hidden>
+          <details class="framework-details" open><summary>1. Automated checks</summary><div><ol><li>Run <span class="framework-code">npm test</span>.</li><li>Parser and renderer suites pass.</li></ol></div></details>
+          <details class="framework-details"><summary>2. Toggle the rendered issue</summary><div><ol><li>Press F5 to launch the Extension Development Host.</li><li>Open <span class="framework-code">GH-042.md</span> and invoke the shortcut.</li><li>The companion is replaced and preview occupies this full editor surface.</li></ol></div></details>
+        </section>
+      </article>`;
+    }
+
+    function renderPlanpoint() {
+      return `<article class="framework-document" data-framework-document="planpoint">
+        <div class="framework-brand"><span class="brand-mark"></span><span>rossroads</span></div>
+        <p class="document-path">ROADMAP/PP-3</p>
+        <h1 class="framework-title">PP-3: Automated document views</h1>
+        ${tabs("planpoint")}
+        <section class="framework-panel" data-framework-panel="what">
+          <p class="framework-intro">Markdown can be rendered into exact local review views with one full-view VS Code toggle.</p>
+          <div class="scope-grid">
+            <article class="scope-card slice"><h2>Slice</h2><div><ul><li>Generate a companion file</li><li>Parse two typed schemas</li></ul></div></article>
+            <article class="scope-card"><h2>Out of scope</h2><div><ul><li>Generic Markdown</li><li>VS Code for the Web</li></ul></div></article>
+            <article class="scope-card deferred"><h2>Deferred</h2><div><ul><li>More document types</li><li>Marketplace publishing</li></ul></div></article>
+          </div>
+          <h2 class="section-title">Crossroads</h2>
+          <details class="framework-details crossroad" open><summary>C1: Where should content ownership live?</summary><div class="decision-columns"><section><h3>Decision</h3><p>Markdown remains canonical.</p></section><section><h3>Why?</h3><p>Documents stay readable by humans and AI without a second editable source.</p></section></div></details>
+          <h2 class="section-title">Plumbing</h2>
+          <div class="plumbing"><div><small>Source</small><strong>PP-3.md</strong></div><span></span><div><small>Typed model</small><strong>Planpoint</strong></div><span></span><div><small>Derived</small><strong>PP-3.html</strong></div></div>
+        </section>
+        <section class="framework-panel" data-framework-panel="issues" hidden>
+          <p class="framework-intro">Issues appear in build order and retain the local document trail.</p>
+          <details class="framework-details" open><summary>#1: Build the renderer</summary><div>Parse and render both accepted schemas. <span class="framework-code">GH-042.md</span></div></details>
+          <details class="framework-details"><summary>#2: Add editor integration</summary><div>Toggle generated previews across the active editor group. <span class="framework-code">GH-043.md</span></div></details>
+        </section>
+        <section class="framework-panel" data-framework-panel="heatmap" hidden>
+          <details class="framework-details hot" open><summary>Hot H1: Use a full-view toggle</summary><div class="decision-columns"><section><h3>Why?</h3><p>Review stays focused and uses the full editor width.</p></section><section><h3>Alternatives</h3><ol><li>Side-by-side preview</li><li>External browser</li></ol></section></div></details>
+          <details class="framework-details warm"><summary>Crossroad C1: Canonical Markdown</summary><div>Accepted: generated HTML is a disposable companion.</div></details>
+        </section>
+      </article>`;
+    }
+
+    function renderEmpty() {
+      return `<article class="framework-document" data-framework-document="issue">
+        <div class="framework-brand"><span class="brand-mark"></span><span>rossroads</span></div>
+        <p class="document-path">PP-3/GH-043.md</p>
+        ${tabs("issue")}
+        <section class="framework-panel" data-framework-panel="what">
+          <p class="framework-intro">Confirm that optional document sections can be absent without producing placeholder components.</p>
+          <div class="empty-view"><strong>No optional What blocks</strong>Plan Diff is <span class="framework-code">None</span>; empty Acceptance Criteria and Notes components were omitted.</div>
+        </section>
+        <section class="framework-panel" data-framework-panel="heatmap" hidden>
+          <div class="empty-view"><strong>No recorded decisions</strong>The empty Hot, Warm, and Cold headings remain in Markdown but do not create empty accordions.</div>
+        </section>
+        <section class="framework-panel" data-framework-panel="testing" hidden>
+          <div class="empty-view"><strong>No checks recorded yet</strong>Empty Automated Checks and Manual Testing sections do not create test cards.</div>
+        </section>
+      </article>`;
+    }
+
+    scenarioSelect.addEventListener("change", () => setScenario(scenarioSelect.value));
+    document.addEventListener("click", (event) => {
+      if (event.target.closest("[data-toggle]")) togglePreview();
+
+      const tab = event.target.closest("[data-framework-tab]");
+      if (!tab) return;
+      const documentElement = tab.closest("[data-framework-document]");
+      const requested = tab.dataset.frameworkTab;
+      documentElement.querySelectorAll("[data-framework-tab]").forEach((item) => item.classList.toggle("active", item === tab));
+      documentElement.querySelectorAll("[data-framework-panel]").forEach((panel) => {
+        panel.hidden = panel.dataset.frameworkPanel !== requested;
+      });
+      previewView.scrollTo({top: 0, behavior: "smooth"});
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.ctrlKey && event.altKey && event.shiftKey && event.key.toLowerCase() === "v") {
+        event.preventDefault();
+        togglePreview();
+      }
+    });
+
+    sourceTab.addEventListener("click", () => {
+      if (view === "preview") togglePreview();
+    });
+
+    previewTab.addEventListener("click", () => {
+      if (previewTab.hidden || view === "preview") return;
+      view = "preview";
+      updateView();
+    });
+
+    sourceTab.tabIndex = 0;
+    previewTab.tabIndex = 0;
+    sourceTab.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") sourceTab.click();
+    });
+    previewTab.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") previewTab.click();
+    });
+
+    const prototypeQuery = new URLSearchParams(window.location.search);
+    const requestedScenario = prototypeQuery.get("scenario");
+    const initialScenario = requestedScenario && scenarios[requestedScenario] ? requestedScenario : "issue";
+    scenarioSelect.value = initialScenario;
+    setScenario(initialScenario);
+    if (prototypeQuery.has("preview")) togglePreview();
+  </script>
+</body>
+</html>
