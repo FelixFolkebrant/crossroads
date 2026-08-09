@@ -1,0 +1,13 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build Crossroads Preview",
+      "type": "npm",
+      "script": "build",
+      "path": "extension/",
+      "problemMatcher": "$tsc",
+      "group": "build"
+    }
+  ]
+}
