@@ -1,0 +1,75 @@
+{
+  "name": "crossroads-preview",
+  "displayName": "Crossroads Preview",
+  "description": "Render canonical Crossroads issue and Planpoint Markdown into Framework HTML companions.",
+  "version": "0.1.0",
+  "publisher": "crossroads-local",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FelixFolkebrant/crossroads.git",
+    "directory": "extension"
+  },
+  "engines": {
+    "vscode": "^1.100.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "markdown",
+    "preview",
+    "crossroads",
+    "documentation"
+  ],
+  "activationEvents": [
+    "onCommand:crossroads.togglePreview"
+  ],
+  "main": "./dist/extension.js",
+  "capabilities": {
+    "untrustedWorkspaces": {
+      "supported": false,
+      "description": "Generating a companion HTML file writes to the current workspace."
+    },
+    "virtualWorkspaces": false
+  },
+  "contributes": {
+    "commands": [
+      {
+        "command": "crossroads.togglePreview",
+        "title": "Crossroads: Toggle Preview",
+        "category": "Crossroads"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "crossroads.togglePreview",
+        "key": "ctrl+alt+shift+v",
+        "mac": "cmd+alt+shift+v",
+        "when": "editorLangId == markdown || activeWebviewPanelId == crossroads.preview"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "tsc --noEmit && node build.mjs",
+    "check": "tsc --noEmit && tsx --test test/*.test.ts && node build.mjs",
+    "package": "tsc --noEmit && tsx --test test/*.test.ts && node build.mjs && vsce package --no-dependencies --out crossroads-preview.vsix",
+    "smoke:render": "tsx test/smoke-render.ts",
+    "test": "tsx --test test/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "watch": "node build.mjs --watch"
+  },
+  "dependencies": {
+    "markdown-it": "14.3.0"
+  },
+  "devDependencies": {
+    "@types/markdown-it": "14.1.2",
+    "@types/node": "24.3.0",
+    "@types/vscode": "1.100.0",
+    "@vscode/vsce": "3.6.0",
+    "esbuild": "0.25.9",
+    "tsx": "4.20.5",
+    "typescript": "5.9.2"
+  }
+}
