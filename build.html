@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="One-shot project implementation and verification record">
+  <title>Crossroads Preview · Build Record</title>
+  <link rel="stylesheet" href=".one-shot/document.css">
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to build record</a>
+
+  <main class="page" id="content">
+    <header class="hero">
+      <p class="eyebrow">One Shot · Final Record</p>
+      <div class="title-row">
+        <div>
+          <h1>Crossroads Preview build</h1>
+          <p class="lede">A locally packaged desktop VS Code extension now renders canonical issue and Planpoint Markdown into deterministic Framework HTML companions and toggles the preview across the active editor group.</p>
+        </div>
+        <span class="status accepted">Complete</span>
+      </div>
+
+      <dl class="meta-grid">
+        <div><dt>Product commits</dt><dd>3</dd></div>
+        <div><dt>Capability stages</dt><dd>3</dd></div>
+        <div><dt>Automated checks</dt><dd>Passed</dd></div>
+        <div><dt>Completed</dt><dd>2026-08-09</dd></div>
+      </dl>
+
+      <div class="review-note">
+        <strong>History</strong>
+        <p>Capability stages are retrospective groupings of actual commits. They explain how the finished project came together; they are not forward-planned Planpoints.</p>
+      </div>
+    </header>
+
+    <section class="section" id="outcome" aria-labelledby="outcome-title">
+      <div class="section-heading">
+        <span class="section-number">01</span>
+        <div>
+          <p class="eyebrow">Delivered</p>
+          <h2 id="outcome-title">Finished outcome</h2>
+          <p>The durable product capabilities and operating constraints that define completion.</p>
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <article class="summary-card"><h3>Canonical Markdown</h3><p><code>GH-&lt;number&gt;.md</code> and <code>PP-&lt;number&gt;.md</code> remain the only editable content sources. A successful render creates or replaces the sibling HTML deterministically.</p></article>
+        <article class="summary-card"><h3>Full-view VS Code toggle</h3><p><code>Ctrl+Alt+Shift+V</code> saves, validates, generates, and reveals a preview in the same editor group. Invoking it from the preview restores the source.</p></article>
+        <article class="summary-card"><h3>Typed Framework views</h3><p>Heading-aware issue and Planpoint renderers reuse the accepted tabs, surfaces, gradients, fonts, folded cards, shared assets, and responsive interaction language.</p></article>
+        <article class="summary-card"><h3>Safe local package</h3><p>Raw HTML stays inert, webviews use a restrictive CSP, malformed schemas leave valid companions untouched, and the bundled VSIX installs without runtime downloads.</p></article>
+      </div>
+
+      <div class="review-note">
+        <strong>Local inputs</strong>
+        <p>The extension intentionally consumes the pre-existing <code>docs/assets/</code> and HTML reference work already present on <code>felixf/GH-003/0</code>. Gate 2 required those user-owned changes to remain outside the <code>COS-NNN</code> commits.</p>
+      </div>
+    </section>
+
+    <section class="section" id="capability-stages" aria-labelledby="stages-title">
+      <div class="section-heading">
+        <span class="section-number">02</span>
+        <div>
+          <p class="eyebrow">Reconstructed history</p>
+          <h2 id="stages-title">Capability stages</h2>
+          <p>Product commits grouped by the user-visible capability they established.</p>
+        </div>
+      </div>
+
+      <div class="stage-list">
+        <article class="stage">
+          <div class="stage-heading">
+            <div><h3>Accepted interaction contract</h3><p>Fixed source ownership, supported schemas, safety, exact design mapping, error behavior, and the in-place preview interaction before product code entered history.</p></div>
+            <span class="status accepted">1 commit</span>
+          </div>
+          <ol class="commit-list">
+            <li class="commit">
+              <span class="commit-id">COS-001</span>
+              <div>
+                <h3>Record the accepted preview contract</h3>
+                <code>0322f76</code>
+                <p><strong>Before:</strong> The repository had no canonical one-shot brief or executable host-specific prototype.</p>
+                <p><strong>After:</strong> Accepted decisions and a standalone VS Code behavioral prototype define normal, sparse, failure, overwrite, keyboard, and narrow states.</p>
+              </div>
+              <div class="commit-links" aria-label="Decisions affecting COS-001">
+                <a class="heat-label" href="decisions.html#C1">C1</a>
+                <a class="heat-label" href="decisions.html#C2">C2</a>
+                <a class="heat-label" href="decisions.html#C3">C3</a>
+                <a class="heat-label" href="decisions.html#C4">C4</a>
+                <a class="heat-label" href="decisions.html#C5">C5</a>
+                <a class="heat-label hot" href="decisions.html#H1">H1</a>
+                <a class="heat-label hot" href="decisions.html#H2">H2</a>
+                <a class="heat-label hot" href="decisions.html#H3">H3</a>
+              </div>
+            </li>
+          </ol>
+        </article>
+
+        <article class="stage">
+          <div class="stage-heading">
+            <div><h3>End-to-end generation and preview</h3><p>Delivered the safe typed parser, both HTML renderers, deterministic file lifecycle, VS Code command, save refresh, diagnostics, secure webview bridge, tests, and package build.</p></div>
+            <span class="status accepted">1 commit</span>
+          </div>
+          <ol class="commit-list">
+            <li class="commit">
+              <span class="commit-id">COS-002</span>
+              <div>
+                <h3>Build the Crossroads preview extension</h3>
+                <code>d650744</code>
+                <p><strong>Before:</strong> Issue and Planpoint companions had to be authored by hand and could drift away from canonical Markdown.</p>
+                <p><strong>After:</strong> The extension validates template headings, renders every known section with Framework components, writes only complete output, and toggles a CSP-protected preview.</p>
+              </div>
+              <div class="commit-links" aria-label="Decisions affecting COS-002">
+                <a class="heat-label" href="decisions.html#C1">C1</a>
+                <a class="heat-label" href="decisions.html#C2">C2</a>
+                <a class="heat-label" href="decisions.html#C3">C3</a>
+                <a class="heat-label" href="decisions.html#C4">C4</a>
+                <a class="heat-label hot" href="decisions.html#H1">H1</a>
+                <a class="heat-label hot" href="decisions.html#H2">H2</a>
+                <a class="heat-label hot" href="decisions.html#H3">H3</a>
+              </div>
+            </li>
+          </ol>
+        </article>
+
+        <article class="stage">
+          <div class="stage-heading">
+            <div><h3>Local operation and review</h3><p>Made the finished product discoverable, launchable with F5, packageable as a VSIX, and manually verifiable through exact reviewer steps.</p></div>
+            <span class="status accepted">1 commit</span>
+          </div>
+          <ol class="commit-list">
+            <li class="commit">
+              <span class="commit-id">COS-003</span>
+              <div>
+                <h3>Document and launch the local extension</h3>
+                <code>d5736c5</code>
+                <p><strong>Before:</strong> Local operation depended on undocumented setup and verification knowledge.</p>
+                <p><strong>After:</strong> Repository launch tasks plus installation, usage, compatibility, package, development, and manual verification instructions support a complete handoff.</p>
+              </div>
+              <div class="commit-links" aria-label="Decisions affecting COS-003">
+                <a class="heat-label" href="decisions.html#C1">C1</a>
+                <a class="heat-label hot" href="decisions.html#H1">H1</a>
+                <a class="heat-label hot" href="decisions.html#H3">H3</a>
+              </div>
+            </li>
+          </ol>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="verification" aria-labelledby="verification-title">
+      <div class="section-heading">
+        <span class="section-number">03</span>
+        <div>
+          <p class="eyebrow">Evidence</p>
+          <h2 id="verification-title">Verification</h2>
+          <p>Completed automated and host evidence stays separate from visual judgments that still belong to a person.</p>
+        </div>
+      </div>
+
+      <div class="verification-grid">
+        <div>
+          <h3>Automated and host checks</h3>
+          <div class="evidence-list">
+            <article class="evidence-card">
+              <div class="evidence-row">
+                <div><strong>Type, behavior, and package suite</strong><p><code>npm run package</code></p><p>TypeScript passed, 15 tests passed, the extension bundled, and a seven-file VSIX was produced.</p></div>
+                <span class="result pass">Passed</span>
+              </div>
+            </article>
+            <article class="evidence-card">
+              <div class="evidence-row">
+                <div><strong>Dependency security</strong><p><code>npm audit</code></p><p>Production and development dependency audits reported zero vulnerabilities after upgrading to <code>markdown-it@14.3.0</code>.</p></div>
+                <span class="result pass">Passed</span>
+              </div>
+            </article>
+            <article class="evidence-card">
+              <div class="evidence-row">
+                <div><strong>Generated document smoke test</strong><p><code>npm run smoke:render</code> + <code>tidy -errors</code> + Firefox</p><p>Both real Markdown templates rendered unchanged, validated as HTML, loaded shared assets, switched tabs, and remained usable at 1440px and 700px.</p></div>
+                <span class="result pass">Passed</span>
+              </div>
+            </article>
+            <article class="evidence-card">
+              <div class="evidence-row">
+                <div><strong>Isolated VSIX install</strong><p><code>code --install-extension crossroads-preview.vsix --force</code></p><p>An isolated VS Code profile installed and listed <code>crossroads-local.crossroads-preview@0.1.0</code>.</p></div>
+                <span class="result pass">Passed</span>
+              </div>
+            </article>
+            <article class="evidence-card">
+              <div class="evidence-row">
+                <div><strong>Extension Development Host</strong><p><code>Ctrl+Alt+Shift+V</code> on temporary template copies</p><p>The host opened <code>Preview GH-XXX.md</code>, returned to <code>GH-XXX.md</code> on the second shortcut, and independently opened <code>Preview PP-X.md</code>.</p></div>
+                <span class="result pass">Passed</span>
+              </div>
+            </article>
+            <article class="evidence-card">
+              <div class="evidence-row">
+                <div><strong>Artifact hygiene</strong><p><code>git diff --check</code> and secret-pattern scan</p><p>No whitespace failures, secret-bearing files, credential patterns, unresolved placeholders, or unignored build artifacts were found.</p></div>
+                <span class="result pass">Passed</span>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div>
+          <h3>Manual verification</h3>
+          <div class="evidence-list">
+            <article class="evidence-card">
+              <ol class="manual-steps">
+                <li><strong>Start</strong>In <code>extension/</code>, run <code>npm install</code> and <code>npm run build</code>. Open the repository root in VS Code, press F5, then copy <code>docs/templates/GH-XXX.md</code> to <code>docs/wip/GH-901.md</code> and give it a matching title.</li>
+                <li><strong>Action</strong>Fill What, Heatmap, and Confirmation content. Press <code>Ctrl+Alt+Shift+V</code>, switch every rendered tab and accordion, press the shortcut again, edit What, and save.</li>
+                <li><strong>Expected</strong>The preview fills the current editor group with no side-by-side source, matches the accepted issue design, returns to Markdown in place, and refreshes both the preview and <code>GH-901.html</code> after save.</li>
+              </ol>
+              <span class="result review">Human visual review</span>
+            </article>
+            <article class="evidence-card">
+              <ol class="manual-steps">
+                <li><strong>Start</strong>Copy <code>docs/templates/PP-X.md</code> to <code>docs/planpoints/PP-901.md</code>, give it a matching title, and fill Slice, Crossroads, Plumbing, Issues, and Conceptual Heatmap.</li>
+                <li><strong>Action</strong>Toggle the preview, inspect What, Issues, and Heatmap, then narrow the editor group below 720 pixels.</li>
+                <li><strong>Expected</strong>The exact Planpoint visual language is preserved, every populated section is visible, issue links are present, and cards and columns stack without horizontal document overflow.</li>
+              </ol>
+              <span class="result review">Human visual review</span>
+            </article>
+            <article class="evidence-card">
+              <ol class="manual-steps">
+                <li><strong>Start</strong>Keep a valid generated <code>GH-901.html</code>, then add a second <code># Confirmation</code> heading to its Markdown source.</li>
+                <li><strong>Action</strong>Invoke the shortcut and inspect the Problems view, notification, source editor, and existing companion.</li>
+                <li><strong>Expected</strong>The duplicate heading receives a Crossroads Preview error, Markdown stays visible, the message names the line to fix, and the prior HTML remains byte-for-byte unchanged.</li>
+              </ol>
+              <span class="result review">Human UI review</span>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="late-decisions" aria-labelledby="late-title">
+      <div class="section-heading">
+        <span class="section-number">04</span>
+        <div>
+          <p class="eyebrow">Autonomous choices</p>
+          <h2 id="late-title">Late and delegated decisions</h2>
+          <p>Hard-to-reverse choices discovered after approval and Hot choices made during the unattended build.</p>
+        </div>
+      </div>
+
+      <div class="decision-list">
+        <article class="decision crossroad" id="L1">
+          <div class="decision-main">
+            <div class="decision-topline"><div class="decision-identity"><span class="decision-id">L1</span><h3>Preserve the active GH-003 branch</h3></div><span class="decision-status accepted">Accepted at Gate 2</span></div>
+            <p class="decision-question">The one-shot default-branch convention conflicted with the accepted template and asset work already present as user-owned changes on <code>felixf/GH-003/0</code>.</p>
+            <div class="decision-grid">
+              <div class="decision-fact proposal"><h4>Choice</h4><p>Remain on the current branch, commit only one-shot-owned files, and leave every pre-existing modification unstaged.</p></div>
+              <div class="decision-fact"><h4>Why</h4><p>Switching branches or absorbing unrelated work would have risked the exact visual inputs and violated the explicit Gate 2 readiness agreement.</p></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="decision crossroad" id="L2">
+          <div class="decision-main">
+            <div class="decision-topline"><div class="decision-identity"><span class="decision-id">L2</span><h3>Keep distribution local and unlicensed</h3></div><span class="decision-status accepted">Delegated by C5</span></div>
+            <p class="decision-question">Local VSIX packaging exposed a licensing choice even though publishing and distribution were outside the accepted scope.</p>
+            <div class="decision-grid">
+              <div class="decision-fact proposal"><h4>Choice</h4><p>Set the package to <code>UNLICENSED</code>, produce a local VSIX, and do not publish or grant distribution rights.</p></div>
+              <div class="decision-fact"><h4>Why</h4><p>Granting no new rights has the lowest reversal cost. The user can select a license deliberately before any future publication.</p></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="decision hot" id="H4">
+          <div class="decision-main">
+            <div class="decision-topline"><div class="decision-identity"><span class="decision-id">H4</span><h3>Bundle the runtime dependency</h3></div><span class="decision-status accepted">Delegated during build</span></div>
+            <p class="decision-question">The extension needed a parser and a package shape that would work without runtime installation.</p>
+            <div class="decision-grid">
+              <div class="decision-fact proposal"><h4>Approach</h4><p>Use TypeScript, <code>markdown-it@14.3.0</code>, and esbuild; bundle the parser into one CommonJS extension entry point while excluding tests and source maps from the VSIX.</p></div>
+              <div class="decision-fact"><h4>Review consequence</h4><p>The seven-file package is self-contained and the dependency audit is clean; changing the build tool or parser later remains affordable.</p></div>
+            </div>
+          </div>
+        </article>
+
+        <article class="decision hot" id="H5">
+          <div class="decision-main">
+            <div class="decision-topline"><div class="decision-identity"><span class="decision-id">H5</span><h3>Let Framework components grow with Markdown</h3></div><span class="decision-status accepted">Delegated during build</span></div>
+            <p class="decision-question">The exact reference CSS used fixed heights for example copy, while generated canonical sections can contain more content.</p>
+            <div class="decision-grid">
+              <div class="decision-fact proposal"><h4>Approach</h4><p>Keep the accepted reference dimensions as minimum heights, preserve every visual token, and allow repeated cards and Markdown content to expand or stack responsively.</p></div>
+              <div class="decision-fact"><h4>Review consequence</h4><p>Short reference content retains the designed geometry; long content remains visible instead of clipping. The responsive issue-tab selector was also corrected.</p></div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="decision-index" aria-labelledby="decision-index-title">
+      <div class="section-heading">
+        <span class="section-number">05</span>
+        <div>
+          <p class="eyebrow">Traceability</p>
+          <h2 id="decision-index-title">Decision index</h2>
+          <p>Accepted proposals that shaped the finished implementation.</p>
+        </div>
+      </div>
+
+      <div class="decision-reference-grid">
+        <article class="reference-row"><div><a href="decisions.html#C1"><strong>C1 · Runtime and scope boundary</strong></a><p>Desktop VS Code supports only issue records and Planpoints.</p></div><span class="decision-status accepted">Applied</span></article>
+        <article class="reference-row"><div><a href="decisions.html#C2"><strong>C2 · Canonical source and generated artifact</strong></a><p>Saved Markdown deterministically replaces its disposable sibling HTML.</p></div><span class="decision-status accepted">Applied</span></article>
+        <article class="reference-row"><div><a href="decisions.html#C3"><strong>C3 · Markdown as the document grammar</strong></a><p>Existing headings and ordinary Markdown blocks define both typed schemas.</p></div><span class="decision-status accepted">Applied</span></article>
+        <article class="reference-row"><div><a href="decisions.html#C4"><strong>C4 · Local and safe rendering boundary</strong></a><p>Raw HTML is inert, remote active content is excluded, and webviews use CSP.</p></div><span class="decision-status accepted">Applied</span></article>
+        <article class="reference-row"><div><a href="decisions.html#C5"><strong>C5 · Late-Crossroad policy</strong></a><p>The lowest-reversal choices for L2 and delegated Hot work were recorded here.</p></div><span class="decision-status accepted">Applied</span></article>
+        <article class="reference-row"><div><a href="decisions.html#H1"><strong>H1 · Save, generate, and toggle behavior</strong></a><p>The shortcut uses one editor group and regeneration happens on save.</p></div><span class="decision-status accepted">Applied</span></article>
+        <article class="reference-row"><div><a href="decisions.html#H2"><strong>H2 · Exact design and complete content</strong></a><p>Known sections repeat Framework components without generic fallback styling.</p></div><span class="decision-status accepted">Applied</span></article>
+        <article class="reference-row"><div><a href="decisions.html#H3"><strong>H3 · Schema-aware validation</strong></a><p>Actionable diagnostics prevent malformed Markdown from replacing valid HTML.</p></div><span class="decision-status accepted">Applied</span></article>
+      </div>
+    </section>
+
+    <footer class="page-footer">
+      Reconstructed from Git history, verification output, <code>IDEA.md</code>, and <code>decisions.html</code>. The final record-only commit is intentionally excluded from capability stages.
+    </footer>
+  </main>
+</body>
+</html>
